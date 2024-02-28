@@ -30,7 +30,7 @@ public class Sk0rer{
                scorer.setPosition(0.3);
                break;
            case CLOSE:
-               scorer.setPosition(0.5);
+               scorer.setPosition(0.6);
                break;
        }
     }

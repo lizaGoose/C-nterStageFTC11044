@@ -17,6 +17,7 @@ public class Intake_mover {
     HardwareMap hardwareMap;
     DcMotor vidvizh;
 
+    double position = 0, blockExtend = 0;
    public enum State{
        SET_STICK_POWER,
        SET_ZERO_POWER,
@@ -34,6 +35,14 @@ public class Intake_mover {
     }
 
     public void teleop() {
+        if (linearOpMode.gamepad1.dpad_right){
+            position = vidvizh.getCurrentPosition();
+            blockExtend = 0;
+        }
+        if (linearOpMode.gamepad1.dpad_left){
+            blockExtend +=1;
+        }
+
        switch (stateIntMov){
            case GET_ZERO_VALUE:
                if (vidvizh.getCurrentPosition() < -0){

@@ -126,27 +126,31 @@ public class Modules extends Robot {
             intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
         }
 
-        if (intmov.vidvizh.getCurrentPosition() >=-300 && intmov.vidvizh.getCurrentPosition() <= 0){
-            wall.stateWall = Wall.State.OPEN;
-        }
-        else if(intmov.vidvizh.getCurrentPosition() < -300){
-            wall.stateWall = Wall.State.CLOSE;
-        }
 
-        if (intmov.vidvizh.getCurrentPosition() >= -10) {
-            if (gamepad1.right_stick_y > 0) {
-                intmov.stateIntMov = Intake_mover.State.SET_ZERO_POWER;
-            }
-            else if(gamepad1.right_stick_y <= 0){
-                intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
-            }
+        if(intmov.blockExtend != 0){
+            intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
         }
         else {
-            intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+            if (intmov.vidvizh.getCurrentPosition() >= (intmov.position-300) && intmov.vidvizh.getCurrentPosition() <= intmov.position) {
+                wall.stateWall = Wall.State.OPEN;
+            } else if (intmov.vidvizh.getCurrentPosition() < (intmov.position-300)) {
+                wall.stateWall = Wall.State.CLOSE;
+            }
+
+            if (intmov.vidvizh.getCurrentPosition() >= (intmov.position-10)) {
+                if (gamepad1.right_stick_y > 0) {
+                    intmov.stateIntMov = Intake_mover.State.SET_ZERO_POWER;
+                } else if (gamepad1.right_stick_y <= 0) {
+                    intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+                }
+            } else {
+                intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+            }
         }
 
         switch (state){
             case STATE:
+                virtual4bar.stateV4b = Virtual4bar.State.DO_NOTHING;
                 break;
             case SMART_BUTTON:
                 c+=1;
