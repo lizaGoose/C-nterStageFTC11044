@@ -29,7 +29,7 @@ public class Sk0rMover{
                 break;
             case SET_RIGHT_POSITION:
                 mover.setPosition(1);
-                break;
+                break; //;k;kkl
             case SET_MIDDLE_POSITION:
                 mover.setPosition(0.5);
                 break;
