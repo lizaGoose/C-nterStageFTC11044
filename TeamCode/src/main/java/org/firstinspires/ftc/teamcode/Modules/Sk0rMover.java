@@ -25,13 +25,13 @@ public class Sk0rMover{
     public void teleop(){
         switch (stateSkorMov){
             case SET_LEFT_POSITION:
-                mover.setPosition(1);
+                mover.setPosition(0);
                 break;
             case SET_RIGHT_POSITION:
-                mover.setPosition(0.35);
+                mover.setPosition(1);
                 break;
             case SET_MIDDLE_POSITION:
-                mover.setPosition(0.68);
+                mover.setPosition(0.5);
                 break;
         }
     }
