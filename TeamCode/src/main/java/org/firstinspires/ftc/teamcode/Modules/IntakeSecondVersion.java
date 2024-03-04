@@ -572,8 +572,8 @@ public class IntakeSecondVersion extends Robot {
         }
     }
     public void Autonomous2(){
-        perekid2.setPosition(1);
-        perekid1.setPosition(0);
+        perekid2.setPosition(0);
+        perekid1.setPosition(1);
 
     }
     public void AutoWallClose(){
@@ -593,8 +593,8 @@ public class IntakeSecondVersion extends Robot {
         mover.setPosition(0.68);
     }
     public void Autonomous6(){
-        perekid2.setPosition(0);
-        perekid1.setPosition(1);
+        perekid2.setPosition(1);
+        perekid1.setPosition(0);
     }
     public void perekidSETsenter(){
         perekid2.setPosition(0.5);
@@ -608,7 +608,7 @@ public class IntakeSecondVersion extends Robot {
         scor.setPosition(0.2);
     }
     public void MovSetCenter(){
-        mover.setPosition(0.68);
+        mover.setPosition(0.5);
         opMode.sleep(900);
         scor.setPosition(0.2);
     }
@@ -664,7 +664,7 @@ public class IntakeSecondVersion extends Robot {
     }
 
     public void liftF(){
-        double error2 = 200 - lift1.getCurrentPosition();
+        double error2 = 150 - lift1.getCurrentPosition();
         while (error2 > 0) {
             lift1.setPower(error2 * kp);
             lift2.setPower(error2 * kp);
@@ -674,11 +674,11 @@ public class IntakeSecondVersion extends Robot {
         lift2.setPower(0);
     }
     public void lift2(){
-        double error2 = 0 - lift1.getCurrentPosition();
-        while (error2 < 0) {
-            lift1.setPower(error2 * kp * 0.01);
-            lift2.setPower(error2 * kp * 0.002);
-            error2 = 0 - lift1.getCurrentPosition();
+        double error2 = -10 - lift1.getCurrentPosition();
+        while (error2 < -10) {
+            lift1.setPower(error2 * kp * 0.02);
+            lift2.setPower(error2 * kp * 0.004);
+            error2 = -10 - lift1.getCurrentPosition();
         }
         lift1.setPower(0);
         lift2.setPower(0);

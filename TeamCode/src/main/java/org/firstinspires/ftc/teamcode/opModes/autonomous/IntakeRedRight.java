@@ -174,7 +174,7 @@ public class IntakeRedRight extends LinearOpMode {
 
                     zahvat.setPower(1);
                 })
-                .splineToLinearHeading(new Pose2d(-23, 51, 0), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-25, 50, 0), Math.toRadians(-90))
                 .addDisplacementMarker(() -> {
                     zahvat.setPower(1);
                 })
@@ -289,7 +289,7 @@ public class IntakeRedRight extends LinearOpMode {
 
 
                 //.splineToConstantHeading(new Vector2d(48, -50), 0)
-                .splineToLinearHeading(new Pose2d(88, 34.8, 0), Math.toRadians(-55))
+                .splineToLinearHeading(new Pose2d(88, 32.8, 0), Math.toRadians(-55))
                 .waitSeconds(0.5)
                 .addDisplacementMarker(()-> {
                     zahvat.setPower(0);
@@ -297,7 +297,7 @@ public class IntakeRedRight extends LinearOpMode {
                     sleep(100);
                     intake.liftF();
                     sleep(400);
-                    intake.Autonomoys7();
+                    intake.Autonomoys3();
                     sleep(400);
                     intake.OpenScor();
                     sleep(200);
@@ -307,7 +307,6 @@ public class IntakeRedRight extends LinearOpMode {
                     intake.perekidSETsenter();
                     intake.lift2();
                     sleep(600);
-                    intake.Autonomous6();
                 })
                 .build();
 
@@ -364,11 +363,14 @@ public class IntakeRedRight extends LinearOpMode {
 
                 .build();
 
-        TrajectorySequence secondCenter2 = R.drive.trajectorySequenceBuilder(firstRight.end())
+        TrajectorySequence secondCenter2 = R.drive.trajectorySequenceBuilder(firstCenter.end())
                 .splineToLinearHeading(new Pose2d(82, 50, Math.toRadians(0)), Math.toRadians(0))
                 .build();
 
         TrajectorySequence secondRight2 = R.drive.trajectorySequenceBuilder(firstRight.end())
+                .addDisplacementMarker(() -> {
+                    intake.Autonomous6();
+                })
                 .splineToLinearHeading(new Pose2d(82, 50, Math.toRadians(0)), Math.toRadians(0))
                 .build();
 

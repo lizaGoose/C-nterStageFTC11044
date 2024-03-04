@@ -109,11 +109,10 @@ public class IntakeBlueRight extends LinearOpMode {
                     sleep(600);
                     intake.Autonomous6();
                 })
+                .splineToLinearHeading(new Pose2d(82, -50, Math.toRadians(0)), Math.toRadians(0))
 
                 .build();
-        TrajectorySequence secondSenter2 = R.drive.trajectorySequenceBuilder(firstCenter.end())
-                .splineToLinearHeading(new Pose2d(82, -50, Math.toRadians(0)), Math.toRadians(0))
-                .build();
+        
         TrajectorySequence secondSenter = R.drive.trajectorySequenceBuilder(firstCenter.end())
                 .splineToLinearHeading(new Pose2d(70, -49.5, 0), Math.toRadians(180))
                 .addTemporalMarker(2.3, () -> {
@@ -471,7 +470,7 @@ public class IntakeBlueRight extends LinearOpMode {
 //                    sleep(600);
 
                     R.drive.followTrajectorySequence(firstCenter);
-                     R.drive.followTrajectorySequence(secondSenter2);
+                     //R.drive.followTrajectorySequence(secondSenter2);
                     //scorer.scor();
                     //R.drive.followTrajectorySequence(UnderFermRunning);
                     //  R.drive.followTrajectorySequence(BackDropRunning);

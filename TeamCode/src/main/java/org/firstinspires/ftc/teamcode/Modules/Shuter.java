@@ -28,9 +28,9 @@ public class Shuter{
     }
 
     public void teleop() {
-        if (linearOpMode.gamepad1.x){
+      /*  if (linearOpMode.gamepad1.x){
             stateShuter = State.SHOOT;
-        }
+        }*/
 
         switch (stateShuter){
             case CLOSE:

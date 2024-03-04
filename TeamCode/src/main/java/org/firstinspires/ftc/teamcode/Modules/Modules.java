@@ -4,7 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Camera.SkamPipeline;
+import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.Robot1;
 
 public class Modules extends Robot {
     Goose goose;
@@ -25,7 +28,9 @@ public class Modules extends Robot {
 
     Wall wall;
 
-    double c = 0,timeIntake = 75, h = 0, checkIntake = 0, a = 1,t;
+    SpikeScorer spsc;
+
+    double c = 0,timeIntake = 75, h = 0, checkIntake = 0, a = 1,t=0;
     DigitalChannel lineSensor2;
     public enum State{
         STATE,
@@ -33,7 +38,8 @@ public class Modules extends Robot {
         B,
         Y,
         A,
-        X
+        X,
+        SHOOT
 
     }
     public State state = State.STATE;
@@ -49,8 +55,10 @@ public class Modules extends Robot {
         shuter = new Shuter(opMode);
         hook = new Hook(opMode);
         wall = new Wall(opMode);
+        spsc = new SpikeScorer(opMode);
         lineSensor2 = hardwareMap.get(DigitalChannel.class, "line_digital2");
         lineSensor2.setMode(DigitalChannel.Mode.INPUT);
+
     }
     public void teleop(){
         if (lineSensor2.getState() != true) {
@@ -60,6 +68,7 @@ public class Modules extends Robot {
         }
         telemetry.addData("mov", intmov.vidvizh.getCurrentPosition());
         telemetry.addData("lift", lift.lift1.getCurrentPosition());
+       //telemetry.addData("angle", robot.targetAngle - robot.drive.getPoseEstimate().getHeading());
         telemetry.update();
 
 
@@ -72,6 +81,7 @@ public class Modules extends Robot {
         scorer.teleop();
         hook.teleop();
         wall.teleop();
+       // spsc.teleop();
         //lift.teleop();
 
         if (gamepad1.y) {
@@ -103,6 +113,9 @@ public class Modules extends Robot {
             scorer.stateScorer = Sk0rer.State.CLOSE;
             skorMover.stateSkorMov = Sk0rMover.State.SET_RIGHT_POSITION;
             state = State.STATE;
+        }
+        if (gamepad1.b){
+            state = State.SHOOT;
         }
 
         if (intmov.vidvizh.getCurrentPosition() >= -20 && gamepad1.right_stick_y == 0) {
@@ -151,6 +164,7 @@ public class Modules extends Robot {
         switch (state){
             case STATE:
                 virtual4bar.stateV4b = Virtual4bar.State.DO_NOTHING;
+                t = 0;
                 break;
             case SMART_BUTTON:
                 c+=1;
@@ -245,6 +259,14 @@ public class Modules extends Robot {
                     lift.position = lift.lift1.getCurrentPosition();
                     state = State.STATE;
                 }*/
+                break;
+            case SHOOT:
+                t+=1;
+                goose.state = Goose.State.SHOOT;
+                if(t>10){
+                    shuter.stateShuter = Shuter.State.SHOOT;
+                    state = State.STATE;
+                }
                 break;
         }
     }

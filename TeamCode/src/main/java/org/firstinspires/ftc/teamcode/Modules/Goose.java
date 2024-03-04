@@ -41,10 +41,6 @@ public class Goose {
             state = State.PUT_UP;
         }
 
-        if (gamepad1.b){
-            state = State.SHOOT;
-        }
-
 
 
         switch (state){
