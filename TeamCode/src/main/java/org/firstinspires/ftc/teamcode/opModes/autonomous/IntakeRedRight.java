@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Camera.PropDetection;
 import org.firstinspires.ftc.teamcode.Camera.PropDetectionRed;
 import org.firstinspires.ftc.teamcode.Modules.IntakeSecondVersion;
+import org.firstinspires.ftc.teamcode.Modules.LiftAuto;
 import org.firstinspires.ftc.teamcode.Modules.SpikeScorer;
 
 import org.firstinspires.ftc.teamcode.Robot1;
@@ -34,12 +35,15 @@ public class IntakeRedRight extends LinearOpMode {
     SpikeScorer scorer;
     Servo hook;
     OpenCvCamera cam;
+
+    LiftAuto lift;
     DcMotor zahvat, vidvizh, lift1, lift2;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         R = new Robot1(this);
+        lift = new LiftAuto(this);
         scorer = new SpikeScorer(this);
         intake = new IntakeSecondVersion(this);
         hook = hardwareMap.get(Servo.class, "servoHook");
@@ -88,84 +92,75 @@ public class IntakeRedRight extends LinearOpMode {
                 })
 
                 //.splineToConstantHeading(new Vector2d(48, -50), 0)
-                .splineToLinearHeading(new Pose2d(87.9, 24.7, 0), Math.toRadians(-60))
+                .splineToLinearHeading(new Pose2d(87.9, 25.7, 0), Math.toRadians(-60))
+                .waitSeconds(0.1)
+                .addTemporalMarker(0, () -> {
+            zahvat.setPower(0);
+            intake.Autonomous2();
+        })
+                .addTemporalMarker(0.1, () -> {
+                    lift.setPosition = 250;
+                })
+                .addTemporalMarker(0.5, () -> {
+                    intake.Autonomoys3();
+                })
+                .addTemporalMarker(0.9, () -> {
+                    intake.OpenScor();
+                })
+                .addTemporalMarker(1.1, () -> {
+                    intake.CloseScor();
+                })
+                .addTemporalMarker(1.5, () -> {
+                    intake.MovSetCenter();
+                    intake.perekidSETsenter();
+                    //intake.lift2();
+                    lift.setPosition = 0;
+                })
+                .addTemporalMarker(2.1, () -> {
+                    intake.Autonomous6();
+                })
+                .build();
+        TrajectorySequence secondSenter = R.drive.trajectorySequenceBuilder(firstCenter.end())
+                .splineToLinearHeading(new Pose2d(70, 54, 0), Math.toRadians(180))
+                .addDisplacementMarker(() -> {
+                    zahvat.setPower(1);
+                })
+                .splineToLinearHeading(new Pose2d(-23.5, 54, 0), Math.toRadians(180))
                 .waitSeconds(0.5)
                 .addDisplacementMarker(() -> {
+                    intake.CloseScor();
+                })
+                .addDisplacementMarker(() -> {
+                    zahvat.setPower(-1);
+                })
+                //.splineToConstantHeading(new Vector2d(48, -50), 0)
+                .splineToLinearHeading(new Pose2d(87.7, 28.8, 0), Math.toRadians(180))
+                .waitSeconds(0.1)
+                .addDisplacementMarker(()-> {
                     zahvat.setPower(0);
                     intake.Autonomous2();
                     sleep(100);
                     intake.liftF();
                     sleep(400);
-                    intake.Autonomoys3();
+                    intake.Autonomoys7();
                     sleep(400);
                     intake.OpenScor();
-                    sleep(200);
+                    sleep(600);
                     intake.CloseScor();
-                    sleep(400);
+                    sleep(600);
                     intake.MovSetCenter();
                     intake.perekidSETsenter();
                     intake.lift2();
                     sleep(600);
                     intake.Autonomous6();
-                })
-                .build();
-        TrajectorySequence secondSenter = R.drive.trajectorySequenceBuilder(firstCenter.end())
-                .splineToLinearHeading(new Pose2d(70, 53, 0), Math.toRadians(180))
-                .addTemporalMarker(2.3, () -> {
-                    hook.setPosition(0.15);
-                    vidvizh.setTargetPosition(-2000);
-                    vidvizh.setPower(1);
                     zahvat.setPower(1);
-                    intake.AutoWallClose();
                 })
-                .splineToLinearHeading(new Pose2d(0, 53, 0), Math.toRadians(180))
-                .waitSeconds(0.4)
-                .addDisplacementMarker(() -> {
-
-                    vidvizh.setTargetPosition(17);
-                    vidvizh.setPower(-1);
-                    zahvat.setPower(-0.2);
-                })
-
-
-                //splineToConstantHeading(new Vector2d(48, -50), 0)
-
-                .splineToLinearHeading(new Pose2d(87.3, 28.5, 0), Math.toRadians(-60))
-                .waitSeconds(0.3)
-                .addDisplacementMarker(()->{
-                    intake.Autonomous6();
-                    intake.AutoWallOpen();
-                    zahvat.setPower(1);
-                    hook.setPosition(0.35);
-                    vidvizh.setPower(0);
-                    sleep(900);
-                    intake.CloseScor();
-                    zahvat.setPower(0);
-                    sleep(200);
-                    intake.Autonomous2();
-                    sleep(100);
-                    intake.lift();
-                    sleep(400);
-                    intake.Autonomoys7();
-                    sleep(300);
-                    intake.OpenScor();
-                    sleep(200);
-                    intake.CloseScor();
-                    sleep(400);
-                    intake.MovSetCenter();
-                    sleep(100);
-                    intake.Autonomous6();
-                    intake.lift2();
-                    sleep(600);
-
-                })
-
                 .build();
 
 
         TrajectorySequence firstLeft = R.drive.trajectorySequenceBuilder(new Pose2d())
                 .splineToLinearHeading(new Pose2d(-5, 5, Math.toRadians(0)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(-2, 29, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-5, 25, Math.toRadians(0)), Math.toRadians(0))
                 //.lineToLinearHeading(new Pose2d(3, -29, 0))
 
                 .waitSeconds(0.4)
@@ -174,7 +169,7 @@ public class IntakeRedRight extends LinearOpMode {
 
                     zahvat.setPower(1);
                 })
-                .splineToLinearHeading(new Pose2d(-25, 50, 0), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(-23.5, 50, 0), Math.toRadians(-90))
                 .addDisplacementMarker(() -> {
                     zahvat.setPower(1);
                 })
@@ -189,15 +184,15 @@ public class IntakeRedRight extends LinearOpMode {
 
 
                 //.splineToConstantHeading(new Vector2d(48, -50), 0)
-                .splineToLinearHeading(new Pose2d(88, 24.5, 0), Math.toRadians(-55))
+                .splineToLinearHeading(new Pose2d(88, 17, 0), Math.toRadians(-55))
                 .waitSeconds(0.5)
                 .addDisplacementMarker(()-> {
-//                    zahvat.setPower(0);
+                    zahvat.setPower(0);
                     intake.Autonomous2();
                     sleep(100);
                     intake.liftF();
                     sleep(400);
-                    intake.Autonomoys3();
+                    intake.Autonomoys7();
                     sleep(400);
                     intake.OpenScor();
                     sleep(200);
@@ -274,7 +269,7 @@ public class IntakeRedRight extends LinearOpMode {
                     zahvat.setPower(1);
                 })
 //                .splineToLinearHeading(new Pose2d(-22, -52, 0), Math.toRadians(0))
-                .lineToLinearHeading(new Pose2d(-23, 51, 0))
+                .lineToLinearHeading(new Pose2d(-23.5, 51, 0))
                 .addDisplacementMarker(() -> {
                     zahvat.setPower(1);
                 })
@@ -289,7 +284,7 @@ public class IntakeRedRight extends LinearOpMode {
 
 
                 //.splineToConstantHeading(new Vector2d(48, -50), 0)
-                .splineToLinearHeading(new Pose2d(88, 32.8, 0), Math.toRadians(-55))
+                .splineToLinearHeading(new Pose2d(90, 31.8, 0), Math.toRadians(-55))
                 .waitSeconds(0.5)
                 .addDisplacementMarker(()-> {
                     zahvat.setPower(0);
@@ -405,7 +400,7 @@ public class IntakeRedRight extends LinearOpMode {
 
             switch (detector.getLocation()) {
                 case LEFT:
-
+                    cam.stopStreaming();
                     intake.Autonomous6();
                     R.drive.followTrajectorySequence(firstRight);
                     R.drive.followTrajectorySequence(secondRight2);
@@ -425,7 +420,7 @@ public class IntakeRedRight extends LinearOpMode {
                     break;
 
                 case RIGHT:
-
+                    cam.stopStreaming();
                     intake.Autonomous6();
                     R.drive.followTrajectorySequence(firstLeft);
                     R.drive.followTrajectorySequence(secondLeft2);
@@ -445,6 +440,7 @@ public class IntakeRedRight extends LinearOpMode {
 
                     break;
                 case CENTER:
+                    cam.stopStreaming();
                     intake.Autonomous6();
 
 //                    intake.Autonomous6();
@@ -469,9 +465,13 @@ public class IntakeRedRight extends LinearOpMode {
 //                    intake.Autonomous6();
 //                    intake.lift2();
 //                    sleep(600);
+                   // if (!drive.isBusy()) {
 
-                    R.drive.followTrajectorySequence(firstCenter);
-                    R.drive.followTrajectorySequence(secondCenter2);
+
+                    R.drive.followTrajectorySequenceAsync(firstCenter);
+
+                       // R.drive.followTrajectorySequenceAsync(secondSenter);
+                   // }
                     //scorer.scor();
                     //R.drive.followTrajectorySequence(UnderFermRunning);
                     //  R.drive.followTrajectorySequence(BackDropRunning);
@@ -489,12 +489,15 @@ public class IntakeRedRight extends LinearOpMode {
                 case NOT_FOUND:
                     break;
             }
-
-
+            while (opModeIsActive()){
+                drive.update();
+                lift.Auto();
+            }
         }
-        cam.stopStreaming();
+      //  cam.stopStreaming();
 
 
         while (!isStopRequested() && opModeIsActive());
     }
+
 }

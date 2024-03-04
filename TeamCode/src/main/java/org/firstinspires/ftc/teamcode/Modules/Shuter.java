@@ -15,10 +15,11 @@ public class Shuter{
 
     public enum State{
         SHOOT,
-        CLOSE
+        CLOSE,
+        DO_NOTHING
     }
 
-    public State stateShuter = State.CLOSE;
+    public State stateShuter = State.DO_NOTHING;
 
     public Shuter(LinearOpMode linearOpMode) {
 
@@ -33,6 +34,8 @@ public class Shuter{
         }*/
 
         switch (stateShuter){
+            case DO_NOTHING:
+                break;
             case CLOSE:
                 shuter.setPosition(0);
                 break;

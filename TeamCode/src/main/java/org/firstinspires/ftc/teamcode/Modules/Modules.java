@@ -2,12 +2,8 @@ package org.firstinspires.ftc.teamcode.Modules;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Camera.SkamPipeline;
-import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.Robot1;
 
 public class Modules extends Robot {
     Goose goose;
@@ -30,7 +26,7 @@ public class Modules extends Robot {
 
     SpikeScorer spsc;
 
-    double c = 0,timeIntake = 75, h = 0, checkIntake = 0, a = 1,t=0;
+    double c = 0,timeIntake = 75, h = 0, checkIntake = 0, a = 1,t=0, setPos = 0, b = 0;
     DigitalChannel lineSensor2;
     public enum State{
         STATE,
@@ -81,7 +77,7 @@ public class Modules extends Robot {
         scorer.teleop();
         hook.teleop();
         wall.teleop();
-       // spsc.teleop();
+        spsc.teleop();
         //lift.teleop();
 
         if (gamepad1.y) {
@@ -93,9 +89,10 @@ public class Modules extends Robot {
         }
 
         if (gamepad2.y){
+            setPos = lift.lift1.getCurrentPosition() + 70;
             state = State.Y;
         }
-        if (state != State.B){
+        if (state != State.B && state != State.Y){
             lift.teleop();
         }
         if (gamepad2.b){
@@ -165,6 +162,7 @@ public class Modules extends Robot {
             case STATE:
                 virtual4bar.stateV4b = Virtual4bar.State.DO_NOTHING;
                 t = 0;
+                b = 0;
                 break;
             case SMART_BUTTON:
                 c+=1;
@@ -243,7 +241,17 @@ public class Modules extends Robot {
 
                 break;
             case Y:
+                b+=1;
                 scorer.stateScorer = Sk0rer.State.OPEN;
+                if(b > 12) {
+                    if (lift.lift1.getCurrentPosition() < setPos) {
+                        lift.lift1.setPower(0.8);
+                        lift.lift2.setPower(0.8);
+                    } else {
+                        lift.position = lift.lift1.getCurrentPosition();
+                        state = State.STATE;
+                    }
+                }
                 break;
             case A:
                 scorer.stateScorer = Sk0rer.State.CLOSE;
@@ -263,8 +271,8 @@ public class Modules extends Robot {
             case SHOOT:
                 t+=1;
                 goose.state = Goose.State.SHOOT;
-                if(t>10){
-                    shuter.stateShuter = Shuter.State.SHOOT;
+                if(t>20){
+                    shuter.stateShuter = Shuter.State.CLOSE;
                     state = State.STATE;
                 }
                 break;

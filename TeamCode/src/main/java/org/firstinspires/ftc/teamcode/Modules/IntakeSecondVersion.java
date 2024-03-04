@@ -674,11 +674,11 @@ public class IntakeSecondVersion extends Robot {
         lift2.setPower(0);
     }
     public void lift2(){
-        double error2 = -10 - lift1.getCurrentPosition();
-        while (error2 < -10) {
-            lift1.setPower(error2 * kp * 0.02);
-            lift2.setPower(error2 * kp * 0.004);
-            error2 = -10 - lift1.getCurrentPosition();
+        double error2 = 0 - lift1.getCurrentPosition();
+        while (error2 < 0) {
+            lift1.setPower(error2 * kp * 0.002);
+            lift2.setPower(error2 * kp * 0.0004);
+            error2 = 0 - lift1.getCurrentPosition();
         }
         lift1.setPower(0);
         lift2.setPower(0);

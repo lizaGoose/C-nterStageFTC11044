@@ -14,14 +14,14 @@ public class SpikeScorer extends Robot {
     }
 
     public void scor(){
-        scor.setPosition(0.5);
+        scor.setPosition(0);
     }
     public void teleop(){
         if (gamepad1.dpad_down){
             scor.setPosition(0);
         }
         if(gamepad1.dpad_up){
-            scor.setPosition(0.5);
+            scor.setPosition(1);
         }
     }
 
