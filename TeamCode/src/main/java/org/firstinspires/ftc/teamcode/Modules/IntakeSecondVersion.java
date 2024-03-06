@@ -35,7 +35,6 @@ public class IntakeSecondVersion extends Robot {
         zahvat.setDirection(DcMotorSimple.Direction.FORWARD);
         zahvat.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         zahvat.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        intake = hardwareMap.get(CRServo.class, "zahvat_perekid");
         lineSensor = hardwareMap.get(DigitalChannel.class, "line_digital");
         lineSensor2 = hardwareMap.get(DigitalChannel.class, "line_digital2");
         lineSensor.setMode(DigitalChannel.Mode.INPUT);
