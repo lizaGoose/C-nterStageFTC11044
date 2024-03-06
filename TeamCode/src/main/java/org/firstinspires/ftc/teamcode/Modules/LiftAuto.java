@@ -12,8 +12,8 @@ public class LiftAuto {
 
     DcMotor lift1, lift2;
 
-    public double position, error, pos1 = 0, blockLift = 0, kp = 0.8;
-    public double setPosition = 500;
+    public double position, error, pos1 = 0, blockLift = 0, kp = 0.008;
+    public double setPosition = 0;
 
     public LiftAuto(LinearOpMode linearOpMode){
         this.linearOpMode = linearOpMode;
@@ -28,6 +28,9 @@ public class LiftAuto {
         lift2.setDirection(DcMotorSimple.Direction.REVERSE);
         lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+    public int GetPose(int thePosition){setPosition = thePosition;
+        return thePosition;
     }
 
     public void Auto(){

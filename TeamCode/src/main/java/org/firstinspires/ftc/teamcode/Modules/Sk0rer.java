@@ -27,7 +27,7 @@ public class Sk0rer{
 
        switch (stateScorer){
            case OPEN:
-               scorer.setPosition(0.35);
+               scorer.setPosition(0.3);
                break;
            case CLOSE:
                scorer.setPosition(0.6);

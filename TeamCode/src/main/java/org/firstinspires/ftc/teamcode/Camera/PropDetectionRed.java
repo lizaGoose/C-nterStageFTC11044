@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.Camera;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Modules.LiftAuto;
+import org.firstinspires.ftc.teamcode.opModes.autonomous.AutoRedTest;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -11,6 +15,8 @@ public class PropDetectionRed extends OpenCvPipeline {
     Telemetry telemetry;
     Mat mat = new Mat();
     public double p=0;
+
+    LiftAuto lift;
 
     public enum Location {
         LEFT,
@@ -32,7 +38,8 @@ public class PropDetectionRed extends OpenCvPipeline {
 
     static double PERCENT_COLOR_THRESHOLD = 0.4;
 
-    public PropDetectionRed(Telemetry t) { telemetry = t;}
+    public PropDetectionRed(Telemetry t, LinearOpMode opMode) { telemetry = t;
+    lift = new LiftAuto(opMode);}
     @Override    public Mat processFrame(Mat input) {
         p+=1;
 
@@ -96,6 +103,7 @@ public class PropDetectionRed extends OpenCvPipeline {
         else if(p>45){
             p = 0;
         }*/
+        telemetry.addData("Lift", lift.setPosition);
 
         telemetry.update();
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);

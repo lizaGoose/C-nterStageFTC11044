@@ -83,7 +83,7 @@ public class AutoBRWithoutDelay extends LinearOpMode {
         cam = OpenCvCameraFactory.getInstance()
                 .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         cam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        PropDetectionRed detector = new PropDetectionRed(telemetry);
+        PropDetectionRed detector = new PropDetectionRed(telemetry,this);
         cam.setPipeline(detector);
         cam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
