@@ -135,7 +135,16 @@ public class Modules extends Robot {
             intake.stateIntake = Intake.State.SET_ZERO_POWER;
             intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
         }
+       /* if (intmov.vidvizh.getCurrentPosition() <= (intmov.position-2000)) {
+            if (gamepad1.right_stick_y < 0) {
 
+                intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+            } else if (gamepad1.right_stick_y >= 0) {
+                intmov.stateIntMov = Intake_mover.State.SET_ZERO_POWER;
+            }
+        } else {
+            intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+        }*/
 
         if(intmov.blockExtend != 0){
             intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
@@ -277,10 +286,5 @@ public class Modules extends Robot {
                 }
                 break;
         }
-    }
-
-
-    public void SmartButton(){
-
     }
 }

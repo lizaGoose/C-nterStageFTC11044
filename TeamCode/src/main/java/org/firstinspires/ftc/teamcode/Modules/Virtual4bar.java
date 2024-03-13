@@ -32,8 +32,8 @@ public class Virtual4bar{
                perekid1.setPosition(1);
                break;
            case SET_DOWN_POSITION:
-               perekid2.setPosition(1);
-               perekid1.setPosition(0);
+               perekid2.setPosition(0.5);
+               perekid1.setPosition(0.5);
                break;
            case DO_NOTHING:
                break;

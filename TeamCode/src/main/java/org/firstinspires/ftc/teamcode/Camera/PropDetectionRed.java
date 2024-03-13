@@ -45,7 +45,7 @@ public class PropDetectionRed extends OpenCvPipeline {
 
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
-        Scalar lowHSV = new Scalar(10, 180, 20);
+        Scalar lowHSV = new Scalar(0, 60, 20);
         Scalar highHSV = new Scalar(30, 255, 255);
 
         Core.inRange(mat, lowHSV, highHSV, mat);

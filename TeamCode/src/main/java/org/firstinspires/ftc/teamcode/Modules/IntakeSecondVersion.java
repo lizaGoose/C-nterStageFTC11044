@@ -6,7 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
@@ -14,7 +16,9 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class IntakeSecondVersion extends Robot {
     CRServo intake;
 
-    Servo mover, perekid1, perekid2, scor, wall, hook;
+    Servo perekid1, perekid2, scor, wall, hook;
+
+    ServoImplEx mover;
     Intake intk;
     public boolean PixeIsIn = false;
     Lift lift;
@@ -45,7 +49,8 @@ public class IntakeSecondVersion extends Robot {
         vidvizh.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         perekid1 = hardwareMap.get(Servo.class, "perekid1");
         perekid2 = hardwareMap.get(Servo.class, "perekid2");//left
-        mover = hardwareMap.get(Servo.class, "skorMover");
+        mover = hardwareMap.get(ServoImplEx.class, "skorMover");
+        mover.setPwmRange(new PwmControl.PwmRange(500, 2500));
         scor = hardwareMap.get(Servo.class, "skorer");
         lift1 = hardwareMap.get(DcMotor.class, "lift1");
         lift1.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -608,11 +613,9 @@ public class IntakeSecondVersion extends Robot {
     }
     public void MovSetCenter(){
         mover.setPosition(0.5);
-        opMode.sleep(900);
-        scor.setPosition(0.2);
     }
     public void Autonomoys7(){
-        mover.setPosition(0.08);
+        mover.setPosition(0);
     }
     public void IntakeFromSteak(){
         ElapsedTime t = new ElapsedTime();

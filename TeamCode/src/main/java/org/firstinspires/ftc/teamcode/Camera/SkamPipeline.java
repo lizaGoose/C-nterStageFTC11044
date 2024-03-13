@@ -89,11 +89,11 @@ public class SkamPipeline extends OpenCvPipeline {
             location = Location.RIGHT;
             telemetry.addData("Prop Location", "right");
         }
-        else if(p> 30 && p <= 45){
+        else if(p> 30 && p <= 55){
             location = Location.CENTER;
             telemetry.addData("Prop Location", "center");
         }
-        else if(p>45){
+        else if(p>55){
             p = 0;
         }
 
