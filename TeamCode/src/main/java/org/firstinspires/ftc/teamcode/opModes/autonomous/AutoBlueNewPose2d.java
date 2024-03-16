@@ -99,7 +99,7 @@ public class AutoBlueNewPose2d extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(xSteakRunning2Cebter, ySteakRunning2Cebter, Math.toRadians(0)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(xSteakRunning3Cebter, ySteakRunning3Cebter, Math.toRadians(-10)), Math.toRadians(180))
                 .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(xSteakRunning3Cebter, yBackdropRunning3Center, Math.toRadians(0)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(xBackdropRunning3Center, yBackdropRunning3Center, Math.toRadians(0)), Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(xBackdropRunning4Center, yBackdropRunning4Center, Math.toRadians(0)), Math.toRadians(0))
                 .waitSeconds(0.5)
                 .splineToLinearHeading(new Pose2d(xParking, yParking, Math.toRadians(0)), Math.toRadians(0))
@@ -133,14 +133,14 @@ public class AutoBlueNewPose2d extends LinearOpMode {
                 cam.stopStreaming();
                 intake.Autonomous6();
                 intake.Autonomous6();
-               // R.drive.followTrajectorySequenceAsync(firstleft);
+                // R.drive.followTrajectorySequenceAsync(firstleft);
                 break;
 
             case LEFT:
                 cam.stopStreaming();
                 intake.Autonomous6();
                 intake.Autonomous6();
-              //  R.drive.followTrajectorySequenceAsync(firstright);
+                //  R.drive.followTrajectorySequenceAsync(firstright);
                 break;
             case CENTER:
                 cam.stopStreaming();
