@@ -29,7 +29,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 @Config
 @Autonomous(group = "drive")
-public class AutoBlueNewPose2d extends LinearOpMode {
+public class AutoRedNewPose2d extends LinearOpMode {
     Robot1 R;
     IntakeSecondVersion intake;
     SpikeScorer scorer;
@@ -39,41 +39,40 @@ public class AutoBlueNewPose2d extends LinearOpMode {
     LiftAuto lift;
     DcMotor zahvat, vidvizh, lift1, lift2;
 
-    public  static double xSplineOutOfWallCenter = -33,ySplineOutOfWallCenter =  56,
-            xSpikeCenter = -34, ySpikeCenter =  23,
-            xSteakRunning0Center = -55, ySteakRunning0Center = 25,
-            xSteakRunning1Cebter = -60, ySteakRunning1Cebter = 11,
-            xBackdropRunning1Center = 38 ,yBackdropRunning1Center = 10,
-            xBackdropRunning2Center =  50, yBackdropRunning2Center = 33,
-            xSteakRunning2Cebter=38, ySteakRunning2Cebter=10,
-            xSteakRunning3Cebter = -30,ySteakRunning3Cebter = 5,
-            xBackdropRunning3Center = 38, yBackdropRunning3Center = 10,
-            xBackdropRunning4Center = 50, yBackdropRunning4Center = 33,
-            xParking = 45, yParking = 10;
+    public  static double xSplineOutOfWallCenter = -43,ySplineOutOfWallCenter =  -56,
+            xSpikeCenter = -38, ySpikeCenter =  -23,
+            xSteakRunning0Center = -55, ySteakRunning0Center = -25,
+            xSteakRunning1Cebter = -60, ySteakRunning1Cebter = -11,
+            xBackdropRunning1Center = 38 ,yBackdropRunning1Center = -10,
+            xBackdropRunning2Center =  50, yBackdropRunning2Center = -33,
+            xSteakRunning2Cebter=38, ySteakRunning2Cebter=-10,
+            xSteakRunning3Cebter = -30,ySteakRunning3Cebter = -5,
+            xBackdropRunning3Center = 38, yBackdropRunning3Center = -10,
+            xBackdropRunning4Center = 50, yBackdropRunning4Center = -33,
+            xParking = 45, yParking = -10;
 
-    public  static double xSplineOutOfWallLeft = -33,ySplineOutOfWallLeft =  56,
-            xSpikeLeft = -30, ySpikeLeft =  33,
-            xSteakRunning0Left = -55, ySteakRunning0Left = 25,
-            xSteakRunning1Left = -60, ySteakRunning1Left = 11,
-            xBackdropRunning1Left = 38 ,yBackdropRunning1Left = 10,
-            xBackdropRunning2Left =  50, yBackdropRunning2Left = 43,
-            xSteakRunning2Left=38, ySteakRunning2Left=10,
-            xSteakRunning3Left = -30,ySteakRunning3Left = 5,
-            xBackdropRunning3Left = 38, yBackdropRunning3Left = 10,
-            xBackdropRunning4Left = 50, yBackdropRunning4Left = 33,
-            xParkingLeft = 45, yParkingLeft = 10;
-
-    public  static double xSplineOutOfWallRight = -33,ySplineOutOfWallRight =  56,
-            xSpikeRight = -55, ySpikeRight =  33,
-            xSteakRunning0Right = -55, ySteakRunning0Right = 25,
-            xSteakRunning1Right = -60, ySteakRunning1Right = 11,
-            xBackdropRunning1Right = 38 ,yBackdropRunning1Right = 10,
-            xBackdropRunning2Right =  50, yBackdropRunning2Right = 28,
-            xSteakRunning2Right=38, ySteakRunning2Right=10,
-            xSteakRunning3Right = -30,ySteakRunning3Right = 5,
-            xBackdropRunning3Right = 38, yBackdropRunning3Right = 10,
-            xBackdropRunning4Right = 50, yBackdropRunning4Right = 33,
-            xParkingRight = 45, yParkingRight = 10;
+    public  static double xSplineOutOfWallLeft = -43,ySplineOutOfWallLeft =  -56,
+            xSpikeLeft = -30, ySpikeLeft =  -33,
+            xSteakRunning0Left = -55, ySteakRunning0Left = -25,
+            xSteakRunning1Left = -60, ySteakRunning1Left = -11,
+            xBackdropRunning1Left = 38 ,yBackdropRunning1Left = -10,
+            xBackdropRunning2Left =  50, yBackdropRunning2Left = -43,
+            xSteakRunning2Left=38, ySteakRunning2Left=-10,
+            xSteakRunning3Left = -30,ySteakRunning3Left = -5,
+            xBackdropRunning3Left = 38, yBackdropRunning3Left = -10,
+            xBackdropRunning4Left = 50, yBackdropRunning4Left = -33,
+            xParkingLeft = 45, yParkingLeft = -10;
+    public  static double xSplineOutOfWallRight = -43,ySplineOutOfWallRight =  -56,
+            xSpikeRight = -55, ySpikeRight =  -33,
+            xSteakRunning0Right = -55, ySteakRunning0Right = -25,
+            xSteakRunning1Right = -60, ySteakRunning1Right = -11,
+            xBackdropRunning1Right = 38 ,yBackdropRunning1Right = -10,
+            xBackdropRunning2Right =  50, yBackdropRunning2Right = -28,
+            xSteakRunning2Right=38, ySteakRunning2Right=-10,
+            xSteakRunning3Right = -30,ySteakRunning3Right = -5,
+            xBackdropRunning3Right = 38, yBackdropRunning3Right = -10,
+            xBackdropRunning4Right = 50, yBackdropRunning4Right = -33,
+            xParkingRight = 45, yParkingRight = -10;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -108,7 +107,7 @@ public class AutoBlueNewPose2d extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-38, 61.5, 0);
+        Pose2d startPose = new Pose2d(-38, -61.5, 0);
 
         drive.setPoseEstimate(startPose);
 
@@ -141,7 +140,7 @@ public class AutoBlueNewPose2d extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(xBackdropRunning2Left, yBackdropRunning2Left, Math.toRadians(0)), Math.toRadians(0))
                 .waitSeconds(0.5)
                 .splineToLinearHeading(new Pose2d(xSteakRunning2Left, ySteakRunning2Left, Math.toRadians(0)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(xSteakRunning3Left, ySteakRunning3Left, Math.toRadians(-10)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(xSteakRunning3Left, ySteakRunning3Left, Math.toRadians(10)), Math.toRadians(180))
                 .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(xBackdropRunning3Left, yBackdropRunning3Left, Math.toRadians(0)), Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(xBackdropRunning4Left, yBackdropRunning4Left, Math.toRadians(0)), Math.toRadians(0))
@@ -159,7 +158,7 @@ public class AutoBlueNewPose2d extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(xBackdropRunning2Right, yBackdropRunning2Right, Math.toRadians(0)), Math.toRadians(0))
                 .waitSeconds(0.5)
                 .splineToLinearHeading(new Pose2d(xSteakRunning2Right, ySteakRunning2Right, Math.toRadians(0)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(xSteakRunning3Right, ySteakRunning3Right, Math.toRadians(-10)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(xSteakRunning3Right, ySteakRunning3Right, Math.toRadians(10)), Math.toRadians(180))
                 .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(xBackdropRunning3Right, yBackdropRunning3Right, Math.toRadians(0)), Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(xBackdropRunning4Right, yBackdropRunning4Right, Math.toRadians(0)), Math.toRadians(0))
