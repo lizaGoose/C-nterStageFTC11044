@@ -45,7 +45,7 @@ public class Intake_mover {
 
        switch (stateIntMov){
            case GET_ZERO_VALUE:
-               if (vidvizh.getCurrentPosition() < -0){
+               if (vidvizh.getCurrentPosition() < 0){
                    vidvizh.setPower(1);
                }
                else {

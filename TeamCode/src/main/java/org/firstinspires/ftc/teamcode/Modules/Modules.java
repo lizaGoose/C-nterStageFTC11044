@@ -26,7 +26,7 @@ public class Modules extends Robot {
 
     SpikeScorer spsc;
 
-    double c = 0,timeIntake = 75, h = 0, checkIntake = 0, a = 1,t=0, setPos = 0, b = 0;
+    double c = 0,timeIntake = 75, h = 0, checkIntake = 0, a = 1,t=0, setPos = 0, b = 0, d = 0;
     DigitalChannel lineSensor2;
     public enum State{
         STATE,
@@ -135,16 +135,6 @@ public class Modules extends Robot {
             intake.stateIntake = Intake.State.SET_ZERO_POWER;
             intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
         }
-       /* if (intmov.vidvizh.getCurrentPosition() <= (intmov.position-2000)) {
-            if (gamepad1.right_stick_y < 0) {
-
-                intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
-            } else if (gamepad1.right_stick_y >= 0) {
-                intmov.stateIntMov = Intake_mover.State.SET_ZERO_POWER;
-            }
-        } else {
-            intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
-        }*/
 
         if(intmov.blockExtend != 0){
             intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
@@ -166,6 +156,15 @@ public class Modules extends Robot {
                 intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
             }
         }
+
+        if (lineSensor2.getState() != true && gamepad1.left_bumper){
+            d+=1;
+        }
+        if (d >= 10){
+            intmov.stateIntMov = Intake_mover.State.GET_ZERO_VALUE;
+            d = 0;
+        }
+
 
         switch (state){
             case STATE:
