@@ -1,5 +1,13 @@
 package org.firstinspires.ftc.teamcode.Camera;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Modules.IntakeSecondVersion;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -31,7 +39,7 @@ public class PropDetection extends OpenCvPipeline {
 
     static double PERCENT_COLOR_THRESHOLD = 0.4;
 
-    public PropDetection(Telemetry t) { telemetry = t; }
+    public PropDetection(Telemetry t) { telemetry = t;}
     @Override    public Mat processFrame(Mat input) {
 
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);

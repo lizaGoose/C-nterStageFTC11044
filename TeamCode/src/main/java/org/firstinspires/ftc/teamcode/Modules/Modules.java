@@ -26,7 +26,7 @@ public class Modules extends Robot {
 
     SpikeScorer spsc;
 
-    double c = 0,timeIntake = 75, h = 0, checkIntake = 0, a = 1,t=0, setPos = 0, b = 0, d = 0;
+    double c = 0,timeIntake = 75, h = 0, checkIntake = 0, a = 1,t=0, setPos = 0, b = 0, d = 0, e = 0;
     DigitalChannel lineSensor2;
     public enum State{
         STATE,
@@ -101,6 +101,14 @@ public class Modules extends Robot {
         if (gamepad2.a){
             state = State.A;
         }
+        if (gamepad2.dpad_up){
+            scorer.stateScorer = Sk0rer.State.OPEN_FRONT;
+            state = State.STATE;
+        }
+        if (gamepad2.dpad_left){
+            scorer.stateScorer = Sk0rer.State.OPEN_REAR;
+            state = State.STATE;
+        }
         if (gamepad2.right_bumper) {
             scorer.stateScorer = Sk0rer.State.CLOSE;
             skorMover.stateSkorMov = Sk0rMover.State.SET_LEFT_POSITION;
@@ -124,19 +132,27 @@ public class Modules extends Robot {
 
 
         if(gamepad1.left_bumper){
-            intake.stateIntake = Intake.State.SET_MAX_POWER;
-            intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+            if(intmov.stateIntMov != Intake_mover.State.GET_ZERO_VALUE) {
+                intake.stateIntake = Intake.State.SET_MAX_POWER;
+                intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+            }
         }
         else if(gamepad1.right_bumper){
-            intake.stateIntake = Intake.State.REVRSE;
-            intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+
+            if(intmov.stateIntMov != Intake_mover.State.GET_ZERO_VALUE) {
+                intake.stateIntake = Intake.State.REVRSE;
+                intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+            }
         }
         else{
+
             intake.stateIntake = Intake.State.SET_ZERO_POWER;
-            intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+            if(intmov.stateIntMov != Intake_mover.State.GET_ZERO_VALUE) {
+                intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+            }
         }
 
-        if(intmov.blockExtend != 0){
+        if(intmov.blockExtend != 0 && d<10){
             intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
         }
         else {
@@ -146,23 +162,49 @@ public class Modules extends Robot {
                 wall.stateWall = Wall.State.CLOSE;
             }
 
-            if (intmov.vidvizh.getCurrentPosition() >= (intmov.position-10)) {
+            if (intmov.vidvizh.getCurrentPosition() >= (intmov.position-10)/* && d<10*/) {
                 if (gamepad1.right_stick_y > 0) {
                     intmov.stateIntMov = Intake_mover.State.SET_ZERO_POWER;
-                } else if (gamepad1.right_stick_y <= 0) {
+                } else if (gamepad1.right_stick_y < 0) {
+                    intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+                }
+                else if(gamepad1.right_stick_y == 0){
                     intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
                 }
             } else {
-                intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+                if(intmov.stateIntMov != Intake_mover.State.GET_ZERO_VALUE) {
+                    intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+                }
+            }
+
+            if (intmov.vidvizh.getCurrentPosition() <= (intmov.position-2100)/* && d<10*/) {
+                if (gamepad1.right_stick_y < 0) {
+                    intmov.stateIntMov = Intake_mover.State.SET_ZERO_POWER;
+                } else if (gamepad1.right_stick_y > 0) {
+                    intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+                }
+                else if(gamepad1.right_stick_y == 0){
+                    intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+                }
+            } else {
+                if(intmov.stateIntMov != Intake_mover.State.GET_ZERO_VALUE) {
+                    intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
+                }
             }
         }
+
+
 
         if (lineSensor2.getState() != true && gamepad1.left_bumper){
             d+=1;
         }
         if (d >= 10){
             intmov.stateIntMov = Intake_mover.State.GET_ZERO_VALUE;
+            intake.stateIntake = Intake.State.SET_ZERO_POWER;
             d = 0;
+        }
+        if (d==0 && (gamepad1.right_stick_y !=0||intmov.vidvizh.getCurrentPosition() >=intmov.position)){
+            intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
         }
 
 
@@ -265,16 +307,13 @@ public class Modules extends Robot {
                 scorer.stateScorer = Sk0rer.State.CLOSE;
                 break;
             case X:
+                e+=1;
                 scorer.stateScorer = Sk0rer.State.CLOSE;
                 skorMover.stateSkorMov = Sk0rMover.State.SET_MIDDLE_POSITION;
-                virtual4bar.stateV4b = Virtual4bar.State.SET_UP_POSITION;
-              /*  if (lift.lift1.getCurrentPosition() < 0) {
-                    lift.lift1.setPower(1);
-                    lift.lift2.setPower(1);
-                } else {
-                    lift.position = lift.lift1.getCurrentPosition();
-                    state = State.STATE;
-                }*/
+                if(e>8) {
+                    virtual4bar.stateV4b = Virtual4bar.State.SET_UP_POSITION;
+                    e = 0;
+                }
                 break;
             case SHOOT:
                 t+=1;

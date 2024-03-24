@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class IntakeSecondVersion extends Robot {
     CRServo intake;
 
-    Servo perekid1, perekid2, scor, wall, hook;
+    Servo perekid1, perekid2, scor, wall, hook, scor1;
 
     ServoImplEx mover;
     Intake intk;
@@ -52,6 +52,7 @@ public class IntakeSecondVersion extends Robot {
         mover = hardwareMap.get(ServoImplEx.class, "skorMover");
         mover.setPwmRange(new PwmControl.PwmRange(500, 2500));
         scor = hardwareMap.get(Servo.class, "skorer");
+        scor1 = hardwareMap.get(Servo.class, "skorer1");
         lift1 = hardwareMap.get(DcMotor.class, "lift1");
         lift1.setDirection(DcMotorSimple.Direction.FORWARD);
         lift1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -578,6 +579,35 @@ public class IntakeSecondVersion extends Robot {
     public void Autonomous2(){
         perekid2.setPosition(0);
         perekid1.setPosition(1);
+
+    }
+    public void SetLeftMov(){
+            mover.setPosition(0);
+    }
+    public void SetCenterMov(){
+        mover.setPosition(0.5);
+    }
+    public void SetRightMov(){
+        mover.setPosition(0.95);
+    }
+    public void AutonomousPerekid(){
+        perekid2.setPosition(1);
+        perekid1.setPosition(0);
+
+    }
+    public void Senso(){
+        perekid2.setPosition(1);
+        perekid1.setPosition(0);
+
+    }
+    public void ScorerOpen(){
+        scor.setPosition(0.15);
+        scor1.setPosition(0.55);
+
+    }
+    public void ScorerClose(){
+        scor.setPosition(0.7);
+        scor1.setPosition(0);
 
     }
     public void AutoWallClose(){

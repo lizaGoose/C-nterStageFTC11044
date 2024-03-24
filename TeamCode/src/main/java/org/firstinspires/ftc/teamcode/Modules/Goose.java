@@ -16,7 +16,7 @@ public class Goose {
     Gamepad gamepad1;
     Servo podves1;
     Servo podves2;
-    double pd11 = 0, pd12 = 1, e = 50, pd21 = 0, pd22 = 0.75;
+    double pd11 = 0, pd12 = 0.75, e = 50, pd21 = 0.2, pd22 = 0.75;
     public enum State{
         SHOOT,
         PUT_UP,
@@ -33,11 +33,11 @@ public class Goose {
     }
     public void teleop(){
 
-        if (gamepad1.dpad_down) {
+         if (gamepad1.dpad_down) {
             state = State.PUT_DOWN;
         }
 
-        if (gamepad1.dpad_up) {
+      if (gamepad1.dpad_up) {
             state = State.PUT_UP;
         }
 
