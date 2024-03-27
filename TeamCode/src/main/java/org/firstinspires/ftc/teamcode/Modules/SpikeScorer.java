@@ -13,14 +13,14 @@ public class SpikeScorer extends Robot {
     public SpikeScorer(LinearOpMode opMode) {
         super(opMode);
         scor = hardwareMap.get(ServoImplEx.class, "Gram");
-        scor.setPwmRange(new PwmControl.PwmRange(500, 2600));
+        scor.setPwmRange(new PwmControl.PwmRange(400, 2600));
 
     }
 
-    public void scor(){scor.setPosition(0.6);}
+    public void scor(){scor.setPosition(0.4);}
     public void teleop(){
         if(gamepad1.dpad_down){
-            scor.setPosition(0.6);
+            scor.setPosition(0.2);
         }
         if(gamepad1.dpad_up){
             scor.setPosition(0.9);

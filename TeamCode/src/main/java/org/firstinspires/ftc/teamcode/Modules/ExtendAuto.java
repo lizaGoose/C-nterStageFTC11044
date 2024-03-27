@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class ExtendAuto {
     HardwareMap hardwareMap;
@@ -11,6 +12,8 @@ public class ExtendAuto {
     LinearOpMode linearOpMode;
 
     DcMotor vidvizh;
+
+    Servo hook;
 
     public double errorExtend, pos1 = 0, blockLift = 0, kp = 0.008;
     public double setPositionExtend  = 0;
@@ -23,6 +26,8 @@ public class ExtendAuto {
         vidvizh.setDirection(DcMotorSimple.Direction.FORWARD);
         vidvizh.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         vidvizh.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        hardwareMap = linearOpMode.hardwareMap;
+        hook = hardwareMap.get(Servo.class, "servoHook");
     }
     public int GetPose(int thePositionExtend){setPositionExtend = thePositionExtend;
         return thePositionExtend;
@@ -32,5 +37,6 @@ public class ExtendAuto {
         errorExtend = setPositionExtend - vidvizh.getCurrentPosition();
 
         vidvizh.setPower(errorExtend*kp);
+       // hook.setPosition(0.35);
     }
 }

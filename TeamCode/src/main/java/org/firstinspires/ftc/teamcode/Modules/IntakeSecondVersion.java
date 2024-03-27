@@ -641,6 +641,9 @@ public class IntakeSecondVersion extends Robot {
     public void OpenScor(){
         scor.setPosition(0.2);
     }
+    public void OpenHook(){
+        hook.setPosition(0.15);
+    }
     public void MovSetCenter(){
         mover.setPosition(0.5);
     }
