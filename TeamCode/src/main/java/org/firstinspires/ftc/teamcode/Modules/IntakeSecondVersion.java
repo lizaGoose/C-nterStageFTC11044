@@ -650,6 +650,9 @@ public class IntakeSecondVersion extends Robot {
     public void Autonomoys7(){
         mover.setPosition(0);
     }
+    public void CloseWall(){
+        wall.setPosition(0.2);
+    }
     public void IntakeFromSteak(){
         ElapsedTime t = new ElapsedTime();
         while (t.milliseconds()<200){

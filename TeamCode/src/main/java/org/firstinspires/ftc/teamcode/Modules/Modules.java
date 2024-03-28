@@ -156,9 +156,17 @@ public class Modules extends Robot {
             intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
         }
         else {
-            if (intmov.vidvizh.getCurrentPosition() >= (intmov.position-300) && intmov.vidvizh.getCurrentPosition() <= intmov.position) {
-                wall.stateWall = Wall.State.OPEN;
-            } else if (intmov.vidvizh.getCurrentPosition() < (intmov.position-300)) {
+           if (intmov.vidvizh.getCurrentPosition() >= (intmov.position-700) && intmov.vidvizh.getCurrentPosition() <= intmov.position) {
+                if(intmov.vidvizh.getPower() >= 0.7) {
+                    wall.stateWall = Wall.State.OPEN;
+                }
+                else{
+                    if (intmov.vidvizh.getCurrentPosition() >= (intmov.position-300) && intmov.vidvizh.getCurrentPosition() <= intmov.position) {
+                        wall.stateWall = Wall.State.CLOSE;
+                    }
+                }
+              // wall.stateWall = Wall.State.OPEN;
+            } else if (intmov.vidvizh.getCurrentPosition() < (intmov.position-700)) {
                 wall.stateWall = Wall.State.CLOSE;
             }
 

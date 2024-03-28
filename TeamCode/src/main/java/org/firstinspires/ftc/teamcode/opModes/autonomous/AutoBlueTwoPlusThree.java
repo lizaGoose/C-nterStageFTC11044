@@ -48,14 +48,14 @@ public class AutoBlueTwoPlusThree extends LinearOpMode {
     public  static double xSplineOutOfWallCenter = -48,ySplineOutOfWallCenter =  60,
             xSpikeCenter = -41, ySpikeCenter =  23.5,
             xSteakRunning0Center = -58, ySteakRunning0Center = 37,
-            xSteakRunning1Cebter = -61, ySteakRunning1Cebter = 0,
-            xBackdropRunning1Center = 28,yBackdropRunning1Center = 2,
+            xSteakRunning1Cebter = -59.5, ySteakRunning1Cebter = 8,
+            xBackdropRunning1Center = 28,yBackdropRunning1Center = 5,
             xBackdropRunning1_2Center = 28 ,yBackdropRunning1_2Center = 30,
-            xBackdropRunning2Center =  52.7, yBackdropRunning2Center = 37,
+            xBackdropRunning2Center =  54.2, yBackdropRunning2Center = 36,
             xBackdropRunning2_1Center =  43.7, yBackdropRunning2_1Center = 35.5,
-            xSteakRunning2Cebter=46, ySteakRunning2Cebter=15,
-            xSteakRunning3Cebter = -15,ySteakRunning3Cebter = 10,
-            xBackdropRunning3Center = 38, yBackdropRunning3Center = 10,
+            xSteakRunning2Cebter=46, ySteakRunning2Cebter=10,
+            xSteakRunning3Cebter = -25, ySteakRunning3Cebter = 10,
+            xBackdropRunning3Center = 28, yBackdropRunning3Center = 5,
             xBackdropRunning4Center = 50, yBackdropRunning4Center = 33,
             xParking = 45, yParking = 10;
 
@@ -105,8 +105,7 @@ public class AutoBlueTwoPlusThree extends LinearOpMode {
         vidvizh = hardwareMap.get(DcMotor.class, "vidvizhenie_zahvata");
         vidvizh.setDirection(DcMotorSimple.Direction.FORWARD);
         vidvizh.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        vidvizh.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        vidvizh.setTargetPosition(0);
+      //  vidvizh.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift1 = hardwareMap.get(DcMotor.class, "lift1");
         lift1.setDirection(DcMotorSimple.Direction.FORWARD);
         lift1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -137,17 +136,22 @@ public class AutoBlueTwoPlusThree extends LinearOpMode {
                     //zahvat.setPower(1);
                 })
                 .lineToLinearHeading(new Pose2d(xSpikeCenter-2, ySpikeCenter, Math.toRadians(0))/* Math.toRadians(180)*/)
-                .waitSeconds(0.4)
-
+                //.waitSeconds(0.4)
+                .setAccelConstraint(new TrajectoryAccelerationConstraint() {
+                    @Override
+                    public double get(double v, @NonNull Pose2d pose2d, @NonNull Pose2d pose2d1, @NonNull Pose2d pose2d2) {
+                        return 18.156578905846143;
+                    }
+                })
                 //.waitSeconds(0.3)
-                .lineToLinearHeading(new Pose2d(xSteakRunning0Center, ySteakRunning0Center, Math.toRadians(0))/* Math.toRadians(180)*/)
+                .lineToLinearHeading(new Pose2d(xSteakRunning0Center, ySteakRunning0Center, Math.toRadians(0))/*, Math.toRadians(0)*/)
                 .addDisplacementMarker(() -> {
                     zahvat.setPower(1);
                 })
 
 
                 //.waitSeconds(0.5)
-                .splineToLinearHeading(new Pose2d(xSteakRunning1Cebter, ySteakRunning1Cebter, Math.toRadians(0)), Math.toRadians(180))
+                .lineToLinearHeading(new Pose2d(xSteakRunning1Cebter, ySteakRunning1Cebter, Math.toRadians(0))/*, Math.toRadians(0)*/)
 
                 .setAccelConstraint(new TrajectoryAccelerationConstraint() {
                     @Override
@@ -155,24 +159,28 @@ public class AutoBlueTwoPlusThree extends LinearOpMode {
                         return 18.156578905846143;
                     }
                 })
-                .splineToLinearHeading(new Pose2d(xSteakRunning1Cebter+2, ySteakRunning1Cebter-4, Math.toRadians(0)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(xSteakRunning1Cebter+2, ySteakRunning1Cebter+16, Math.toRadians(0)), Math.toRadians(0))
-                .waitSeconds(0.3)
-                .splineToLinearHeading(new Pose2d(xSteakRunning1Cebter, ySteakRunning1Cebter, Math.toRadians(0)), Math.toRadians(0))
-                .addDisplacementMarker(() -> {
-                    zahvat.setPower(-1);
-                })
-                .splineToLinearHeading(new Pose2d(xBackdropRunning1Center, yBackdropRunning1Center, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(xSteakRunning1Cebter+0.001, ySteakRunning1Cebter+0.001, Math.toRadians(0)), Math.toRadians(0))
                 .setAccelConstraint(new TrajectoryAccelerationConstraint() {
                     @Override
                     public double get(double v, @NonNull Pose2d pose2d, @NonNull Pose2d pose2d1, @NonNull Pose2d pose2d2) {
                         return 58.156578905846143;
                     }
                 })
+                //.splineToLinearHeading(new Pose2d(xSteakRunning1Cebter+2, ySteakRunning1Cebter-4, Math.toRadians(0)), Math.toRadians(0))
+              /*  .splineToLinearHeading(new Pose2d(xSteakRunning1Cebter+2, ySteakRunning1Cebter+16, Math.toRadians(0)), Math.toRadians(0))
+                .waitSeconds(0.1)
+                .splineToLinearHeading(new Pose2d(xSteakRunning1Cebter, ySteakRunning1Cebter, Math.toRadians(0)), Math.toRadians(0))*/
+                .addDisplacementMarker(() -> {
+                    zahvat.setPower(-1);
+                })
+                .waitSeconds(0.1)
+                .splineToLinearHeading(new Pose2d(xBackdropRunning1Center, yBackdropRunning1Center, Math.toRadians(0)), Math.toRadians(0))
+
                 .addDisplacementMarker(() -> {
                     intake.ScorerClose();
                     zahvat.setPower(-1);
                 })
+
                 .splineToLinearHeading(new Pose2d(xBackdropRunning1_2Center, yBackdropRunning1_2Center, Math.toRadians(0)), Math.toRadians(0))
                 .setAccelConstraint(new TrajectoryAccelerationConstraint() {
                     @Override
@@ -185,27 +193,27 @@ public class AutoBlueTwoPlusThree extends LinearOpMode {
                     intake.Autonomous2();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.05,()-> {
-                    lift.GetPose(250);
+                    lift.GetPose(300);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.1,()-> {
                     intake.SetLeftMov();
                 })
                 .splineToLinearHeading(new Pose2d(xBackdropRunning2Center, yBackdropRunning2Center, Math.toRadians(0)), Math.toRadians(0))
                 //.setTurnConstraint(18.156578905846143, 18.156578905846143)
-                .waitSeconds(0.6)
+                .waitSeconds(0.1)
                 .addDisplacementMarker(() -> {
                     zahvat.setPower(0);
                     //     intake.ScorerOpen();
                 })
                 .splineToLinearHeading(new Pose2d(xBackdropRunning2Center+0.001, yBackdropRunning2Center+0.001, Math.toRadians(0)), Math.toRadians(0))
-                .waitSeconds(0.6)
+                .waitSeconds(0.1)
                 .addDisplacementMarker(() -> {
                     zahvat.setPower(0);
                     intake.ScorerOpen();
                 })
 
                 .splineToLinearHeading(new Pose2d(xBackdropRunning2Center+0.002, yBackdropRunning2Center+0.002, Math.toRadians(0)), Math.toRadians(0))
-                .waitSeconds(1.5)
+                .waitSeconds(0.3)
                 .addDisplacementMarker(()-> {
                     zahvat.setPower(0);
                     lift.GetPose(500);
@@ -223,14 +231,39 @@ public class AutoBlueTwoPlusThree extends LinearOpMode {
                     lift.GetPose(0);
                     intake.OpenHook();
                 })
-                .waitSeconds(2)
+                .waitSeconds(0.1)
                 .lineToLinearHeading(new Pose2d(xSteakRunning2Cebter+0.001, ySteakRunning2Cebter+0.001, Math.toRadians(0))/*, Math.toRadians(180)*/)
                 .addDisplacementMarker(()-> {
+                    intake.CloseWall();
                     intake.AutonomousPerekid();
-                    extend.GetPose(-2000);
+                    extend.GetPose(-5000);
+                    zahvat.setPower(1);
                 })
+                .setAccelConstraint(new TrajectoryAccelerationConstraint() {
+                    @Override
+                    public double get(double v, @NonNull Pose2d pose2d, @NonNull Pose2d pose2d1, @NonNull Pose2d pose2d2) {
+                        return 18.156578905846143;
+                    }
+                })
+
                 //.waitSeconds(4)
                  .lineToLinearHeading(new Pose2d(xSteakRunning3Cebter, ySteakRunning3Cebter, Math.toRadians(0))/*, Math.toRadians(180)*/)
+                .addDisplacementMarker(()-> {
+                   zahvat.setPower(1);
+                })
+                .waitSeconds(0.1)
+
+                .splineToLinearHeading(new Pose2d(xBackdropRunning3Center, yBackdropRunning3Center, Math.toRadians(0)), Math.toRadians(180))
+                .addDisplacementMarker(()-> {
+                    zahvat.setPower(1);
+                    extend.GetPose(0);
+                })
+                .setAccelConstraint(new TrajectoryAccelerationConstraint() {
+                    @Override
+                    public double get(double v, @NonNull Pose2d pose2d, @NonNull Pose2d pose2d1, @NonNull Pose2d pose2d2) {
+                        return 58.156578905846143;
+                    }
+                })
                 //.waitSeconds(1)
                 /*.splineToLinearHeading(new Pose2d(xBackdropRunning3Center, yBackdropRunning3Center, Math.toRadians(0)), Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(xBackdropRunning4Center, yBackdropRunning4Center, Math.toRadians(0)), Math.toRadians(0))

@@ -37,6 +37,7 @@ public class LiftTest {
         lift2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void teleop(){
+
         lift1.setPower(linearOpMode.gamepad2.right_stick_y);
         lift2.setPower(linearOpMode.gamepad2.left_stick_y);
     }
