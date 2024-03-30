@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class Hook {
+public class HookTest {
     HardwareMap hardwareMap;
 
     LinearOpMode linearOpMode;
@@ -16,13 +16,20 @@ public class Hook {
         OPEN
     }
     public State stateHook = State.CLOSE;
-    public  Hook(LinearOpMode linearOpMode){
+    public  HookTest(LinearOpMode linearOpMode){
 
         this.linearOpMode = linearOpMode;
         hardwareMap = linearOpMode.hardwareMap;
         hook = hardwareMap.get(Servo.class, "servoHook");
     }
     public void teleop(){
+
+        if(linearOpMode.gamepad2.left_stick_y > 0){
+            stateHook = State.OPEN;
+        }
+        if(linearOpMode.gamepad2.left_stick_y < 0){
+           stateHook = State.CLOSE;
+        }
         switch (stateHook){
             case CLOSE:
                 hook.setPosition(0.6);

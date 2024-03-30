@@ -29,13 +29,13 @@ public class PropDetection extends OpenCvPipeline {
 
     static final Rect LEFT_ROI = new Rect(
             new Point(580, 210),
-            new Point(700, 320));
+            new Point(700, 350));
     static final Rect CENTER_ROI = new Rect(
             new Point(270, 240),
             new Point(500, 170));
     static final Rect RIGHT_ROI = new Rect(
             new Point(200, 210),
-            new Point(120, 300));
+            new Point(120, 350));
 
     static double PERCENT_COLOR_THRESHOLD = 0.4;
 

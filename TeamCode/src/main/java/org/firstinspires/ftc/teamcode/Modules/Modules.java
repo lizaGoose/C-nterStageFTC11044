@@ -80,6 +80,7 @@ public class Modules extends Robot {
         spsc.teleop();
         //lift.teleop();
 
+
         if (gamepad1.y) {
             state = State.SMART_BUTTON;
         }
@@ -156,17 +157,17 @@ public class Modules extends Robot {
             intmov.stateIntMov = Intake_mover.State.SET_STICK_POWER;
         }
         else {
-           if (intmov.vidvizh.getCurrentPosition() >= (intmov.position-700) && intmov.vidvizh.getCurrentPosition() <= intmov.position) {
-                if(intmov.vidvizh.getPower() >= 0.7) {
+           if (intmov.vidvizh.getCurrentPosition() >= (intmov.position-300) && intmov.vidvizh.getCurrentPosition() <= intmov.position) {
+               /* if(intmov.vidvizh.getPower() >= 0.7) {
                     wall.stateWall = Wall.State.OPEN;
                 }
                 else{
                     if (intmov.vidvizh.getCurrentPosition() >= (intmov.position-300) && intmov.vidvizh.getCurrentPosition() <= intmov.position) {
                         wall.stateWall = Wall.State.CLOSE;
                     }
-                }
-              // wall.stateWall = Wall.State.OPEN;
-            } else if (intmov.vidvizh.getCurrentPosition() < (intmov.position-700)) {
+                }*/
+               wall.stateWall = Wall.State.OPEN;
+            } else if (intmov.vidvizh.getCurrentPosition() < (intmov.position-300)) {
                 wall.stateWall = Wall.State.CLOSE;
             }
 
@@ -203,9 +204,9 @@ public class Modules extends Robot {
 
 
 
-        if (lineSensor2.getState() != true && gamepad1.left_bumper){
+       /* if (lineSensor2.getState() != true && gamepad1.left_bumper){
             d+=1;
-        }
+        }*/
         if (d >= 10){
             intmov.stateIntMov = Intake_mover.State.GET_ZERO_VALUE;
             intake.stateIntake = Intake.State.SET_ZERO_POWER;

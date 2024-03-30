@@ -46,12 +46,12 @@ public class AutoBlueNewPose2d extends LinearOpMode {
     ExtendAuto extend;
 
     public  static double xSplineOutOfWallCenter = -48,ySplineOutOfWallCenter =  60,
-            xSpikeCenter = -41, ySpikeCenter =  23.5,
-            xSteakRunning0Center = -58, ySteakRunning0Center = 37,
-            xSteakRunning1Cebter = -59.5, ySteakRunning1Cebter = 8,
-            xBackdropRunning1Center = 28,yBackdropRunning1Center = 5,
-            xBackdropRunning1_2Center = 50 ,yBackdropRunning1_2Center = 30,
-            xBackdropRunning2Center =  53.7, yBackdropRunning2Center = 37,
+            xSpikeCenter = -41, ySpikeCenter =  24,
+            xSteakRunning0Center = -59, ySteakRunning0Center = 37,
+            xSteakRunning1Cebter = -60.3, ySteakRunning1Cebter = 8,
+            xBackdropRunning1Center = 22,yBackdropRunning1Center = 5,
+            xBackdropRunning1_2Center = 40 ,yBackdropRunning1_2Center = 37,
+            xBackdropRunning2Center =  51, yBackdropRunning2Center = 38,
             xBackdropRunning2_1Center =  43.7, yBackdropRunning2_1Center = 35.5,
             xSteakRunning2Cebter=46, ySteakRunning2Cebter=10,
             xSteakRunning3Cebter = -25, ySteakRunning3Cebter = 10,
@@ -60,13 +60,13 @@ public class AutoBlueNewPose2d extends LinearOpMode {
             xParking = 45, yParking = 10;
 
     public  static double xSplineOutOfWallLeft = -44,ySplineOutOfWallLeft =  56,
-            xSpikeLeft = -31.3, ySpikeLeft =  35,
-            xSteakRunning0Left = -48, ySteakRunning0Left = 34,
-            xSteakRunning1Left = -58.5, ySteakRunning1Left = 3.5,
+            xSpikeLeft = -30.3, ySpikeLeft =  33,
+            xSteakRunning0Left = -55, ySteakRunning0Left = 34,
+            xSteakRunning1Left = -59, ySteakRunning1Left = 3.5,
             xBackdropRunning1Left = 25 ,yBackdropRunning1Left = 5,
             xBackdropRunning1_2Left = 45 ,yBackdropRunning1_2Left = 30,
-            xBackdropRunning1_3Left = 48 ,yBackdropRunning1_3Left = 46,
-            xBackdropRunning2Left =  52.5, yBackdropRunning2Left = 46.2,
+            xBackdropRunning1_3Left = 43 ,yBackdropRunning1_3Left = 46,
+            xBackdropRunning2Left =  52.2, yBackdropRunning2Left = 47,
             xSteakRunning2Left=43, ySteakRunning2Left=15,
             xSteakRunning2_1Left=33, ySteakRunning2_1Left=46,
             xSteakRunning3Left = -30,ySteakRunning3Left = 5,
@@ -75,13 +75,13 @@ public class AutoBlueNewPose2d extends LinearOpMode {
             xParkingLeft = 45, yParkingLeft = 10;
 
     public  static double xSplineOutOfWallRight = -33,ySplineOutOfWallRight =  56,
-            xSpikeRight = -52.3, ySpikeRight =  32,
+            xSpikeRight = -52, ySpikeRight =  32,
             xSteakRunning0Right = -53, ySteakRunning0Right = 34,
             xSteakRunning1Right = -60, ySteakRunning1Right = 1.5,
-            xBackdropRunning1Right = 25,yBackdropRunning1Right = 5,
-            xBackdropRunning1_2Right =  45, yBackdropRunning1_2Right = 29,
-            xBackdropRunning1_3Right =  45, yBackdropRunning1_3Right = 30,
-            xBackdropRunning2Right =  52.5, yBackdropRunning2Right = 29.2,
+            xBackdropRunning1Right = 15,yBackdropRunning1Right = 5,
+            xBackdropRunning1_2Right =  45, yBackdropRunning1_2Right = 31,
+            xBackdropRunning1_3Right =  45, yBackdropRunning1_3Right = 28.5,
+            xBackdropRunning2Right =  52.2, yBackdropRunning2Right = 26.75,
             xBackdropRunning2_1Right =  38.7, yBackdropRunning2_1Right = 29,
             xSteakRunning2Right=46, ySteakRunning2Right=15,
             xSteakRunning3Right = 43,ySteakRunning3Right = 15,
@@ -174,7 +174,7 @@ public class AutoBlueNewPose2d extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     zahvat.setPower(-1);
                 })
-                .waitSeconds(0.1)
+                .waitSeconds(0.3)
                 .splineToLinearHeading(new Pose2d(xBackdropRunning1Center, yBackdropRunning1Center, Math.toRadians(0)), Math.toRadians(0))
 
                 .addDisplacementMarker(() -> {
@@ -194,7 +194,7 @@ public class AutoBlueNewPose2d extends LinearOpMode {
                     intake.Autonomous2();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.05,()-> {
-                    lift.GetPose(300);
+                    lift.GetPose(360);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.1,()-> {
                     intake.SetRightMov();
@@ -230,7 +230,7 @@ public class AutoBlueNewPose2d extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(xSteakRunning2Cebter, ySteakRunning2Cebter, Math.toRadians(0))/*, Math.toRadians(180)*/)
                 .UNSTABLE_addTemporalMarkerOffset(1,()-> {
                     lift.GetPose(0);
-                    intake.OpenHook();
+                  //  intake.OpenHook();
                 })
                 .waitSeconds(0.1)
                 .lineToLinearHeading(new Pose2d(xSteakRunning2Cebter+0.001, ySteakRunning2Cebter+0.001, Math.toRadians(0))/*, Math.toRadians(180)*/)
@@ -268,7 +268,7 @@ public class AutoBlueNewPose2d extends LinearOpMode {
 
 
                 //.waitSeconds(0.5)
-                .splineToLinearHeading(new Pose2d(xSteakRunning1Left, ySteakRunning1Left, Math.toRadians(0)), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(xSteakRunning1Left, ySteakRunning1Left, Math.toRadians(0))/*, Math.toRadians(180)*/)
 
                 .setAccelConstraint(new TrajectoryAccelerationConstraint() {
                     @Override
@@ -277,12 +277,13 @@ public class AutoBlueNewPose2d extends LinearOpMode {
                     }
                 })
                 .splineToLinearHeading(new Pose2d(xSteakRunning1Left-2.7, ySteakRunning1Left+10, Math.toRadians(0)), Math.toRadians(0))
-                .waitSeconds(0.3)
-                .splineToLinearHeading(new Pose2d(xBackdropRunning1Left, yBackdropRunning1Left, Math.toRadians(0)), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
                     intake.ScorerClose();
                     zahvat.setPower(-1);
                 })
+                .waitSeconds(0.7)
+                .splineToLinearHeading(new Pose2d(xBackdropRunning1Left, yBackdropRunning1Left, Math.toRadians(0)), Math.toRadians(0))
+
                 .splineToLinearHeading(new Pose2d(xBackdropRunning1_2Left, yBackdropRunning1_2Left, Math.toRadians(0)), Math.toRadians(0))
                 .setAccelConstraint(new TrajectoryAccelerationConstraint() {
                     @Override
@@ -383,17 +384,19 @@ public class AutoBlueNewPose2d extends LinearOpMode {
                     }
                 })
                 .splineToLinearHeading(new Pose2d(xSteakRunning1Right-3, ySteakRunning1Right+10, Math.toRadians(0)), Math.toRadians(0))
-                .waitSeconds(0.3)
+                .waitSeconds(0.01)
                 .splineToLinearHeading(new Pose2d(xSteakRunning1Right, ySteakRunning1Right, Math.toRadians(0)), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
                     intake.ScorerClose();
                     zahvat.setPower(-1);
+                    intake.SetCenterMov();
                 })
                 .splineToLinearHeading(new Pose2d(xBackdropRunning1Right, yBackdropRunning1Right, Math.toRadians(0)), Math.toRadians(0))
-               /* .addDisplacementMarker(() -> {
-                    intake.ScorerClose();
+                .UNSTABLE_addTemporalMarkerOffset(0.5,()-> {
                     zahvat.setPower(-1);
-                })*/
+                    intake.Autonomous2();
+                })
+
                 .splineToLinearHeading(new Pose2d(xBackdropRunning1_2Right, yBackdropRunning1_2Right, Math.toRadians(0)), Math.toRadians(0))
                 .setAccelConstraint(new TrajectoryAccelerationConstraint() {
                     @Override
@@ -405,12 +408,13 @@ public class AutoBlueNewPose2d extends LinearOpMode {
                     zahvat.setPower(-1);
                     intake.Autonomous2();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.05,()-> {
-                    lift.GetPose(350);
+                .UNSTABLE_addTemporalMarkerOffset(0.2,()-> {
+                    lift.GetPose(380);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.1,()-> {
+                .UNSTABLE_addTemporalMarkerOffset(0.25,()-> {
                     intake.SetLeftMov();
                 })
+                .waitSeconds(0.2)
               //  .splineToLinearHeading(new Pose2d(xBackdropRunning1_3Right, yBackdropRunning1_3Right, Math.toRadians(0)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(xBackdropRunning2Right, yBackdropRunning2Right, Math.toRadians(0)), Math.toRadians(0))
                 //.setTurnConstraint(18.156578905846143, 18.156578905846143)
