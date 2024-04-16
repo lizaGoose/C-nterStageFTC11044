@@ -111,7 +111,7 @@ public class FollowerConstants {
     public static double smallDrivePIDFFeedForward = 0.01;
 
     // Mass of robot in kilograms
-    public static double mass = 10.65942;
+    public static double mass = 18.65942;
 
     // Centripetal force to power scaling
     // todo: there are currently issues with the centripetal force correction, so just don't use it for now

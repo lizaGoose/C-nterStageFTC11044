@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.NanoTimer;
@@ -27,15 +28,15 @@ public class TwoWheelLocalizer extends Localizer { // todo: make two wheel odo w
     private Matrix startRotationMatrix;
     private NanoTimer timer;
     private long deltaTimeNano;
-    private Encoder forwardEncoder;
-    private Encoder strafeEncoder;
+    public Encoder forwardEncoder;
+    public Encoder strafeEncoder;
     private Pose forwardEncoderPose;
     private Pose strafeEncoderPose;
     private double previousIMUOrientation;
     private double deltaRadians;
     private double totalHeading;
-    public static double FORWARD_TICKS_TO_INCHES = 8192 * 1.37795 * 2 * Math.PI * 0.5008239963;
-    public static double STRAFE_TICKS_TO_INCHES = 8192 * 1.37795 * 2 * Math.PI * 0.5018874659;
+    public static double FORWARD_PER_REV = 4096;
+    public static double STRAFE_TICKS_PER_REV = 4096 ;
 
     public TwoWheelLocalizer(HardwareMap map) {
         this(map, new Pose());
@@ -43,21 +44,24 @@ public class TwoWheelLocalizer extends Localizer { // todo: make two wheel odo w
 
     public TwoWheelLocalizer(HardwareMap map, Pose setStartPose) {
         // TODO: replace these with your encoder positions
-        forwardEncoderPose = new Pose(-18.5/25.4 - 0.1, 164.4/25.4, 0);
-        strafeEncoderPose = new Pose(-107.9/25.4+0.25, -1.1/25.4-0.23, Math.toRadians(90));
+        forwardEncoderPose = new Pose(60 / 25.4, -100 / 25.4, 0);
+        strafeEncoderPose = new Pose(-130 / 25.4, 30 / 25.4, Math.toRadians(90));
 
         hardwareMap = map;
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.LEFT)));
+        imu = hardwareMap.get(IMU.class, "imu1");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
+        imu.initialize(parameters);
 
         // TODO: replace these with your encoder ports
-        forwardEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftRear"));
-        strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "strafeEncoder"));
+        forwardEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightRear"));
+        strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
 
         // TODO: reverse any encoders necessary
         forwardEncoder.setDirection(Encoder.REVERSE);
         strafeEncoder.setDirection(Encoder.FORWARD);
+
 
         setStartPose(setStartPose);
         timer = new NanoTimer();
@@ -97,6 +101,9 @@ public class TwoWheelLocalizer extends Localizer { // todo: make two wheel odo w
         startRotationMatrix.set(1, 0, Math.sin(startHeading));
         startRotationMatrix.set(1, 1, -Math.cos(startHeading));
         startRotationMatrix.set(2, 2, 1.0);
+    }
+    public static double encoderTicksToInches(double ticks) {
+        return 19/25.4 * 2 * Math.PI * 1 * ticks/ FORWARD_PER_REV;
     }
 
     @Override
@@ -148,9 +155,9 @@ public class TwoWheelLocalizer extends Localizer { // todo: make two wheel odo w
     public Matrix getRobotDeltas() {
         Matrix returnMatrix = new Matrix(3,1);
         // x/forward movement
-        returnMatrix.set(0,0, FORWARD_TICKS_TO_INCHES * (forwardEncoder.getDeltaPosition() - forwardEncoderPose.getY() * deltaRadians));
+        returnMatrix.set(0,0, encoderTicksToInches(forwardEncoder.getDeltaPosition()) * (forwardEncoder.getDeltaPosition() - forwardEncoderPose.getY() * deltaRadians));
         //y/strafe movement
-        returnMatrix.set(1,0, STRAFE_TICKS_TO_INCHES * (strafeEncoder.getDeltaPosition() - strafeEncoderPose.getX() * deltaRadians));
+        returnMatrix.set(1,0, encoderTicksToInches(forwardEncoder.getDeltaPosition()) * (strafeEncoder.getDeltaPosition() - strafeEncoderPose.getX() * deltaRadians));
         // theta/turning
         returnMatrix.set(2,0, deltaRadians);
         return returnMatrix;
