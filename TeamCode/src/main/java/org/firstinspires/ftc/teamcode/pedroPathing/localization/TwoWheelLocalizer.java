@@ -148,16 +148,16 @@ public class TwoWheelLocalizer extends Localizer { // todo: make two wheel odo w
         strafeEncoder.update();
 
         double currentIMUOrientation =MathFunctions.normalizeAngle(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-        deltaRadians = MathFunctions.getTurnDirection(previousIMUOrientation, currentIMUOrientation) * MathFunctions.getSmallestAngleDifference(currentIMUOrientation, previousIMUOrientation);
+        deltaRadians = MathFunctions.getTurnDirection(previousIMUOrientation, currentIMUOrientation) * MathFunctions.getSmallestAngleDifference(currentIMUOrientation, previousIMUOrientation)/4;
         previousIMUOrientation = currentIMUOrientation;
     }
 
     public Matrix getRobotDeltas() {
         Matrix returnMatrix = new Matrix(3,1);
         // x/forward movement
-        returnMatrix.set(0,0, encoderTicksToInches(forwardEncoder.getDeltaPosition()) * (forwardEncoder.getDeltaPosition() - forwardEncoderPose.getY() * deltaRadians));
+        returnMatrix.set(0,0, encoderTicksToInches(forwardEncoder.getDeltaPosition())/* * (forwardEncoder.getDeltaPosition() - forwardEncoderPose.getY() * deltaRadians)*/);
         //y/strafe movement
-        returnMatrix.set(1,0, encoderTicksToInches(forwardEncoder.getDeltaPosition()) * (strafeEncoder.getDeltaPosition() - strafeEncoderPose.getX() * deltaRadians));
+        returnMatrix.set(1,0, encoderTicksToInches(/*forwardEncoder.getDeltaPosition()) * (*/strafeEncoder.getDeltaPosition())/* - strafeEncoderPose.getX() * deltaRadians)*/);
         // theta/turning
         returnMatrix.set(2,0, deltaRadians);
         return returnMatrix;
