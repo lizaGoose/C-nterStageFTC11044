@@ -47,7 +47,7 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
 
     private PoseUpdater poseUpdater;
 
-    public static double VELOCITY = 30;
+    public static double VELOCITY = 10;
 
     private double previousVelocity;
 
@@ -71,8 +71,10 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
@@ -115,14 +117,14 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.cross || gamepad1.a) {
-            requestOpModeStop();
+           requestOpModeStop();
         }
 
         poseUpdater.update();
         Vector heading = new Vector(1.0, poseUpdater.getPose().getHeading());
         if (!end) {
             if (!stopping) {
-                if (MathFunctions.dotProduct(poseUpdater.getVelocity(), heading) > VELOCITY) {
+                if (MathFunctions.crossProduct(poseUpdater.getVelocity(), heading) > VELOCITY) {
                     previousVelocity = MathFunctions.dotProduct(poseUpdater.getVelocity(), heading);
                     previousTimeNano = System.nanoTime();
                     stopping = true;
@@ -131,11 +133,15 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
                     }
                 }
             } else {
-                double currentVelocity = MathFunctions.dotProduct(poseUpdater.getVelocity(), heading);
-                accelerations.add((currentVelocity - previousVelocity) / ((System.nanoTime() - previousTimeNano) / Math.pow(10.0, 9)));
-                previousVelocity = currentVelocity;
+                double currentVelocity = MathFunctions.crossProduct(poseUpdater.getVelocity(), heading);
+                accelerations.add((MathFunctions.dotProduct(poseUpdater.getVelocity(), heading) - previousVelocity) / ((System.nanoTime() - previousTimeNano) / Math.pow(10.0, 9)));
+                previousVelocity = MathFunctions.dotProduct(poseUpdater.getVelocity(), heading);
                 previousTimeNano = System.nanoTime();
                 if (currentVelocity < FollowerConstants.pathEndVelocityConstraint) {
+                    leftFront.setPower(0);
+                    leftRear.setPower(0);
+                    rightFront.setPower(0);
+                    rightRear.setPower(0);
                     end = true;
                 }
             }
