@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration;
 
-import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 /**
  * This is the Point class. This class handles storing information about the location of points in
@@ -45,11 +45,11 @@ public class Point {
     }
 
     /**
-     * This creates a new Point from a Pose.
+     * This creates a new Point from a Pose2d.
      *
-     * @param pose the Pose.
+     * @param pose the Pose2d.
      */
-    public Point(Pose pose) {
+    public Point(Pose2d pose) {
         setCoordinates(pose.getX(), pose.getY(), CARTESIAN);
     }
 

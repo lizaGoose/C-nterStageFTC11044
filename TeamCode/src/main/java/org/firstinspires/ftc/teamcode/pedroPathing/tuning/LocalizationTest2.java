@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
 
-@TeleOp (group = "Pedro Pathing Tuning", name = "Localization Test")
-public class LocalizationTest extends OpMode {
+@TeleOp (group = "Pedro Pathing Tuning", name = "Localization Test Pedro")
+public class LocalizationTest2 extends OpMode {
     private Follower follower;
     private Vector driveVector;
     private Vector headingVector;
@@ -47,7 +47,7 @@ public class LocalizationTest extends OpMode {
         telemetryA.addData("x", follower.getPose().getX());
         telemetryA.addData("y", follower.getPose().getY());
         telemetryA.addData("heading", follower.getPose().getHeading());
-        telemetryA.addData("total heading", follower.getTotalHeading());
+        telemetryA.addLine("Pedro");
         telemetryA.update();
 
     }

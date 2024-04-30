@@ -14,6 +14,7 @@ import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstan
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,7 +22,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.PoseUpdater;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierPoint;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
@@ -60,7 +60,7 @@ public class Follower {
 
     private PoseUpdater poseUpdater;
 
-    private Pose closestPose;
+    private Pose2d closestPose;
 
     private Path currentPath;
 
@@ -163,7 +163,7 @@ public class Follower {
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftRear.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
@@ -211,16 +211,16 @@ public class Follower {
      *
      * @return returns the pose
      */
-    public Pose getPose() {
+    public Pose2d getPose() {
         return poseUpdater.getPose();
     }
 
     /**
-     * This sets the current pose in the PoseUpdater without using offsets.
+     * This sets the current pose in the PoseUpdater using Road Runner's setPoseEstimate() method.
      *
      * @param pose The pose to set the current pose to.
      */
-    public void setPose(Pose pose) {
+    public void setPose(Pose2d pose) {
         poseUpdater.setPose(pose);
     }
 
@@ -256,7 +256,7 @@ public class Follower {
      *
      * @param pose the pose to set the starting pose to.
      */
-    public void setStartingPose(Pose pose) {
+    public void setStartingPose(Pose2d pose) {
         poseUpdater.setStartingPose(pose);
     }
 
@@ -267,7 +267,7 @@ public class Follower {
      *
      * @param set The pose to set the current pose to.
      */
-    public void setCurrentPoseWithOffset(Pose set) {
+    public void setCurrentPoseWithOffset(Pose2d set) {
         poseUpdater.setCurrentPoseWithOffset(set);
     }
 
@@ -327,7 +327,7 @@ public class Follower {
 
     /**
      * This resets all offsets set to the PoseUpdater. If you have reset your pose using the
-     * setCurrentPoseUsingOffset(Pose set) method, then your pose will be returned to what the
+     * setCurrentPoseUsingOffset(Pose2d set) method, then your pose will be returned to what the
      * PoseUpdater thinks your pose would be, not the pose you reset to.
      */
     public void resetOffset() {
@@ -757,19 +757,19 @@ public class Follower {
      * @return returns the centripetal force correction vector.
      */
     public Vector getCentripetalForceCorrection() {
-//        return new Vector();
-        if (!useCentripetal) return new Vector();
-        double curvature;
-        if (auto) {
-            curvature = currentPath.getClosestPointCurvature();
-        } else {
-            double yPrime = averageVelocity.getYComponent() / averageVelocity.getXComponent();
-            double yDoublePrime = averageAcceleration.getYComponent() / averageVelocity.getXComponent();
-            curvature = (Math.pow(Math.sqrt(1 + Math.pow(yPrime, 2)), 3)) / (yDoublePrime);
-        }
-        if (Double.isNaN(curvature)) return new Vector();
-        centripetalVector = new Vector(MathFunctions.clamp(Math.abs(FollowerConstants.centripetalScaling * FollowerConstants.mass * Math.pow(MathFunctions.dotProduct(poseUpdater.getVelocity(), MathFunctions.normalizeVector(currentPath.getClosestPointTangentVector())), 2) * curvature), -1, 1), currentPath.getClosestPointTangentVector().getTheta() + Math.PI / 2 * MathFunctions.getSign(currentPath.getClosestPointNormalVector().getTheta()));
-        return centripetalVector;
+        return new Vector();
+//        if (!useCentripetal) return new Vector();
+//        double curvature;
+//        if (auto) {
+//            curvature = currentPath.getClosestPointCurvature();
+//        } else {
+//            double yPrime = averageVelocity.getYComponent() / averageVelocity.getXComponent();
+//            double yDoublePrime = averageAcceleration.getYComponent() / averageVelocity.getXComponent();
+//            curvature = (Math.pow(Math.sqrt(1 + Math.pow(yPrime, 2)), 3)) / (yDoublePrime);
+//        }
+//        if (Double.isNaN(curvature)) return new Vector();
+//        centripetalVector = new Vector(MathFunctions.clamp(Math.abs(FollowerConstants.centripetalScaling * FollowerConstants.mass * Math.pow(MathFunctions.dotProduct(poseUpdater.getVelocity(), MathFunctions.normalizeVector(currentPath.getClosestPointTangentVector())), 2) * curvature), -1, 1), currentPath.getClosestPointTangentVector().getTheta() + Math.PI / 2 * MathFunctions.getSign(currentPath.getClosestPointNormalVector().getTheta()));
+//        return centripetalVector;
     }
 
     /**
@@ -779,7 +779,7 @@ public class Follower {
      *
      * @return returns the closest pose.
      */
-    public Pose getClosestPose() {
+    public Pose2d getClosestPose() {
         return closestPose;
     }
 
@@ -876,14 +876,5 @@ public class Follower {
      */
     public void telemetryDebug(Telemetry telemetry) {
         telemetryDebug(new MultipleTelemetry(telemetry));
-    }
-
-    /**
-     * This returns the total number of radians the robot has turned.
-     *
-     * @return the total heading.
-     */
-    public double getTotalHeading() {
-        return poseUpdater.getTotalHeading();
     }
 }
