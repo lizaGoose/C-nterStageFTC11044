@@ -47,7 +47,7 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
 
     private PoseUpdater poseUpdater;
 
-    public static double VELOCITY = 30;
+    public static double VELOCITY =  50;
 
     private double previousVelocity;
 
@@ -71,8 +71,10 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
@@ -121,8 +123,10 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
         poseUpdater.update();
         Vector heading = new Vector(1.0, poseUpdater.getPose().getHeading());
         if (!end) {
+            telemetryA.addData("velocity", MathFunctions.dotProduct(poseUpdater.getVelocity(), heading));
+            telemetryA.update();
             if (!stopping) {
-                if (MathFunctions.dotProduct(poseUpdater.getVelocity(), heading) > VELOCITY) {
+                if (MathFunctions.dotProduct(poseUpdater.getVelocity(), heading) < -VELOCITY) {
                     previousVelocity = MathFunctions.dotProduct(poseUpdater.getVelocity(), heading);
                     previousTimeNano = System.nanoTime();
                     stopping = true;
@@ -147,6 +151,8 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
             average /= (double)accelerations.size();
 
             telemetryA.addData("forward zero power acceleration (deceleration):", average);
+            telemetryA.addData("velocity", poseUpdater.getVelocity());
+            telemetryA.addData("heading", heading);
             telemetryA.update();
         }
     }
