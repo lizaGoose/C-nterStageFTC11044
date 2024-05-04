@@ -61,7 +61,7 @@ public class PoseUpdater {
 
         List<Integer> lastTrackingEncPositions = new ArrayList<>();
         List<Integer> lastTrackingEncVels = new ArrayList<>();
-        localizer = new TwoWheelTrackingLocalizer2(hardwareMap);
+        localizer = new TwoWheelTrackingLocalizer2(hardwareMap, lastTrackingEncPositions, lastTrackingEncVels);
     }
 
     /**

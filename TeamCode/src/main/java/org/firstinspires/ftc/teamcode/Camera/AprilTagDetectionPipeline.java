@@ -29,6 +29,7 @@ import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.MatOfPoint3f;
 import org.opencv.core.Point;
 import org.opencv.core.Point3;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.apriltag.AprilTagDetection;
@@ -203,10 +204,15 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline
                 new Point3(0,length,0),
                 new Point3(0,0,-length)
         );
+        Rect LEFT_ROI = new Rect(
+                new Point(200+length, 210+length),
+                new Point(120+length, 300+length));
 
+        Scalar colorProp = new Scalar(0, 255, 0);
         // Project those points
         MatOfPoint2f matProjectedPoints = new MatOfPoint2f();
         Calib3d.projectPoints(axis, rvec, tvec, cameraMatrix, new MatOfDouble(), matProjectedPoints);
+        Imgproc.rectangle(rvec, LEFT_ROI, colorProp);
         Point[] projectedPoints = matProjectedPoints.toArray();
 
         // Draw the marker!
