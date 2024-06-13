@@ -12,13 +12,15 @@ import java.util.Locale;
 public class MaxBotixWithI2CDriver extends LinearOpMode {
 
     private MB1242 maxBot;
+    private DistanceUnit unit = DistanceUnit.INCH;
     @Override
     public void runOpMode() throws InterruptedException {
+
         maxBot = hardwareMap.get(MB1242.class, "tempSensor");
-        // get a reference to the distance sensor that shares the same name.
+
         waitForStart();
         while (opModeIsActive()){
-            telemetry.addData("Distance", maxBot.getDistance(DistanceUnit.INCH));
+            telemetry.addData("Distance", unit.fromCm(maxBot.getDistance(DistanceUnit.CM)));
             telemetry.update();
         }
     }
