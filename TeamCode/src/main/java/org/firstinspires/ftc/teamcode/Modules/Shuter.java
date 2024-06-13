@@ -42,10 +42,10 @@ public class Shuter{
             case SHOOT:
                 ElapsedTime t = new ElapsedTime();
                 if(t.milliseconds() < 100) {
-                    shuter.setPosition(0.5);
+                    shuter.setPosition(0.3);
                 }
                 else{
-                    shuter.setPosition(0);
+                    shuter.setPosition(0.3);
                 }
                 break;
         }

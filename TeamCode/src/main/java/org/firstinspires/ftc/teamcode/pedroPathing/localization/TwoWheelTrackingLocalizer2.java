@@ -57,7 +57,7 @@ public class TwoWheelTrackingLocalizer2 extends TwoTrackingWheelLocalizer {
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
     // Perpendicular is perpendicular to the forward axis
-    private Encoder parallelEncoder, perpendicularEncoder;
+    private RoadRunnerEncoder parallelEncoder, perpendicularEncoder;
 
 
     public TwoWheelTrackingLocalizer2(HardwareMap hardwareMap,List<Integer> lastTrackingEncPositions, List<Integer> lastTrackingEncVels) {
@@ -71,9 +71,9 @@ public class TwoWheelTrackingLocalizer2 extends TwoTrackingWheelLocalizer {
                 DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
         imu.initialize(parameters);
 
-        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightRear"));
-        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
-        parallelEncoder.setDirection(Encoder.Direction.REVERSE);
+        parallelEncoder = new RoadRunnerEncoder(hardwareMap.get(DcMotorEx.class, "rightRear"));
+        perpendicularEncoder = new RoadRunnerEncoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
+        parallelEncoder.setDirection(RoadRunnerEncoder.Direction.REVERSE);
 
         lastEncPositions = lastTrackingEncPositions;
         lastEncVels = lastTrackingEncVels;
