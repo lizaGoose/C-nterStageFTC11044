@@ -16,7 +16,7 @@ public class MaxBotixWithI2CDriver extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        maxBot = hardwareMap.get(MB1242.class, "tempSensor");
+        maxBot = hardwareMap.get(MB1242.class, "maxBot");
 
         waitForStart();
         while (opModeIsActive()){
